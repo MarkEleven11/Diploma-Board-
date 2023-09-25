@@ -3,7 +3,7 @@ package ru.skypro.homework.dto;
 import lombok.Data;
 
 @Data
-public class Register {
+public class RegisterReq {
 
     private String username;
     private String password;
@@ -12,7 +12,7 @@ public class Register {
     private String phone;
     private Role role;
 
-    public Register(String username, String password, String firstName, String lastName, String phone, Role role) {
+    public RegisterReq(String username, String password, String firstName, String lastName, String phone, Role role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;

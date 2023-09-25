@@ -15,8 +15,6 @@ import ru.skypro.homework.dto.CreateAds;
 import ru.skypro.homework.dto.FullAds;
 import ru.skypro.homework.dto.ResponseWrapperAds;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/ads")
 public class AdsController {
@@ -79,7 +77,7 @@ public class AdsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("@adServiceImpl.getEntity(#id).author.email.equals(#auth.name) or hasAuthority('DELETE_ANY_AD')")
-    public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) throws IOException {
+    public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) {
         return ResponseEntity.status(200).build();
     }
 

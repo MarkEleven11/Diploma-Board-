@@ -1,0 +1,13 @@
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=validate
+
+spring.liquibase.change-log=classpath:liquibase/changelog-master.yml
+
+logging.level.com.example.diploma.service=info
+logging.file.name=./logs/app_log.log
+logging.logback.rollingpolicy.file-name-pattern=./logs/archive/app_log.%d{yyyy-MM-dd}.%i.log
+logging.logback.rollingpolicy.max-history=3
+
+path.to.images=images

@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset anna:1
+-- changeset irina:1
 insert into users(password, email, first_name, last_name, phone, role, image_id)
 values (r3IwatD25TuCab.D2A1AT1be',
         'irma.semenova@gmail.com',

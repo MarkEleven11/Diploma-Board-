@@ -1,5 +1,9 @@
+package ru.skypro.homework.mappers;
+
 import org.springframework.stereotype.Component;
+import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.User;
+import ru.skypro.homework.entity.UserEntity;
 
 @Component
 public class UserMapper {

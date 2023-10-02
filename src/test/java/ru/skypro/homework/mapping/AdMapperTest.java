@@ -1,7 +1,15 @@
-package mapping;
+package ru.skypro.homework.mapping;
 
 import org.junit.jupiter.api.Test;
+import ru.skypro.homework.dto.Ads;
+import ru.skypro.homework.dto.CreateAds;
+import ru.skypro.homework.dto.FullAds;
+import ru.skypro.homework.entity.AdEntity;
+import ru.skypro.homework.entity.ImageEntity;
+import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.mappers.AdMapper;
+
+import java.util.Objects;
 
 class AdMapperTest {
     private final AdMapper mapper = new AdMapper();

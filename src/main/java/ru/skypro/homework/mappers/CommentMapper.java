@@ -1,5 +1,14 @@
+package ru.skypro.homework.mappers;
+
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.Comment;
+import ru.skypro.homework.dto.CreateComment;
+import ru.skypro.homework.entity.AdEntity;
+import ru.skypro.homework.entity.CommentEntity;
+import ru.skypro.homework.entity.UserEntity;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Component
 public class CommentMapper {

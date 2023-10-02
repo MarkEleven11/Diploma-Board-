@@ -1,7 +1,13 @@
-package mapping;
+package ru.skypro.homework.mapping;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.skypro.homework.dto.RegisterReq;
+import ru.skypro.homework.dto.Role;
+import ru.skypro.homework.dto.User;
+import ru.skypro.homework.entity.ImageEntity;
+import ru.skypro.homework.entity.UserEntity;
+import ru.skypro.homework.mappers.UserMapper;
 
 class UserMapperTest {
 

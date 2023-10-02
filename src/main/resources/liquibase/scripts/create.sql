@@ -9,7 +9,8 @@ create table users
     first_name varchar(30)  not null,
     last_name  varchar(30)  not null,
     phone      varchar(12)  not null,
-    role       varchar(25)  not null
+    role       varchar(25)  not null,
+    image_id bigint references images (image_id)
 );
 
 create table ads
@@ -18,7 +19,8 @@ create table ads
     user_id        int not null references users(user_id) on delete cascade,
     title          text not null ,
     price          int not null ,
-    description    text
+    description    text,
+    image_id bigint references images (image_id)
 );
 create table comments
 (
@@ -31,20 +33,8 @@ create table comments
 
 create table images
 (
-    image_id   bigserial primary key,
-    size       bigint,
-    media_type varchar(50)
+    image_id   bigserial primary key
 );
-
-alter table users
-    add column image_id bigint references images (image_id);
-
-alter table ads
-    add column image_id bigint references images (image_id);
-
-alter table images
-    drop column size,
-    drop column media_type;
 
 insert into users(password, email, first_name, last_name, phone, role, image_id)
 values ('r3IwatD25TuCab.D2A1AT1be',

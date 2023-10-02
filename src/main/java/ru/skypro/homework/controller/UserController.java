@@ -34,7 +34,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword newPassword) {
         return ResponseEntity.ok(newPassword);
     }
@@ -53,7 +52,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<User> getUser() {
         return ResponseEntity.ok(new User());
     }
@@ -73,7 +71,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         return ResponseEntity.ok(user);
     }
@@ -88,7 +85,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image) {
         return ResponseEntity.status(200).build();
     }

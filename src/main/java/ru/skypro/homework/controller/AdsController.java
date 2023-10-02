@@ -55,7 +55,6 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Ads> addAd(@RequestPart CreateAds properties, @RequestPart MultipartFile image,
                                      Authentication auth) {
         return ResponseEntity.status(200).build();
@@ -73,7 +72,6 @@ public class AdsController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<FullAds> getAds(@PathVariable int id) {
         return ResponseEntity.status(200).build();
     }

@@ -17,7 +17,7 @@ import ru.skypro.homework.dto.ResponseWrapperAds;
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("comments")
+@RequestMapping("/ads")
 @RequiredArgsConstructor
 @Tag(name = "Комментарии", description = "Методы работы с комментариями.")
 public class CommentController {
@@ -34,8 +34,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    public ResponseEntity<Comment> getComments(@PathVariable("ad_pk") Integer adPk,
-                                               @PathVariable("id") Integer id,
+    public ResponseEntity<Comment> getComments(@PathVariable("id") Integer id,
                                                @RequestBody Comment comment) {
         //CommentService.getCommentById(id);
         return ResponseEntity.ok(comment);

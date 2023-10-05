@@ -24,11 +24,11 @@ class UserMapperTest {
     void entityToUserDtoTestNoImage() {
         UserEntity entity = new UserEntity(id, password, email, fName, lName, phone, role, null);
         User user = mapper.entityToUserDto(entity);
-        assert user.getId() == id;
-        assert user.getEmail().equals(email);
-        assert user.getFirstName().equals(fName);
-        assert user.getLastName().equals(lName);
-        assert user.getPhone().equals(phone);
+        Assertions.assertEquals(user.getId(), id);
+        Assertions.assertEquals(user.getEmail(), email);
+        Assertions.assertEquals(user.getFirstName(), fName);
+        Assertions.assertEquals(user.getLastName(), lName);
+        Assertions.assertEquals(user.getPhone(), phone);
         Assertions.assertNull(user.getImage());
     }
 
@@ -37,12 +37,12 @@ class UserMapperTest {
         UserEntity entity = new UserEntity(id, password, email, fName, lName, phone, role,
                 new ImageEntity(1));
         User user = mapper.entityToUserDto(entity);
-        assert user.getId() == id;
-        assert user.getEmail().equals(email);
-        assert user.getFirstName().equals(fName);
-        assert user.getLastName().equals(lName);
-        assert user.getPhone().equals(phone);
-        assert user.getImage().equals(entity.getImagePath());
+        Assertions.assertEquals(user.getId(), id);
+        Assertions.assertEquals(user.getEmail(), email);
+        Assertions.assertEquals(user.getFirstName(), fName);
+        Assertions.assertEquals(user.getLastName(), lName);
+        Assertions.assertEquals(user.getPhone(), phone);
+        Assertions.assertEquals(user.getImage(), entity.getImagePath());
     }
 
     @Test
@@ -53,9 +53,9 @@ class UserMapperTest {
         User user = new User(id, email, fName, lName, phone, null);
         UserEntity entity = new UserEntity(id, password, email, newFName, newLName, newPhone, role, null);
         UserEntity newEntity = mapper.userDtoToEntity(user, entity);
-        assert newEntity.getFirstName().equals(fName);
-        assert newEntity.getLastName().equals(lName);
-        assert newEntity.getPhone().equals(phone);
+        Assertions.assertEquals(newEntity.getFirstName(), fName);
+        Assertions.assertEquals(newEntity.getLastName(), lName);
+        Assertions.assertEquals(newEntity.getPhone(), phone);
     }
 
     @Test
@@ -68,11 +68,11 @@ class UserMapperTest {
         req.setFirstName(fName);
         req.setPhone(phone);
         UserEntity entity = mapper.registerReqDtoToEntity(req);
-        assert entity.getPhone().equals(phone);
-        assert entity.getLastName().equals(lName);
-        assert entity.getEmail().equals(email);
-        assert entity.getFirstName().equals(fName);
-        assert entity.getRole().equals(role);
-        assert entity.getPassword().equals(password);
+        Assertions.assertEquals(entity.getPhone(), phone);
+        Assertions.assertEquals(entity.getLastName(), lName);
+        Assertions.assertEquals(entity.getEmail(), email);
+        Assertions.assertEquals(entity.getFirstName(), fName);
+        Assertions.assertEquals(entity.getRole(), role);
+        Assertions.assertEquals(entity.getPassword(), password);
     }
 }

@@ -1,6 +1,11 @@
 -- liquibase formatted sql
 -- changeset irina:1
 
+create table images
+(
+    image_id   bigserial primary key
+);
+
 create table users
 (
     user_id    serial primary key,
@@ -29,11 +34,6 @@ create table comments
     created_at     timestamp not null ,
     comments_text  text,
     ad_id int not null references ads (ad_id) on delete cascade
-);
-
-create table images
-(
-    image_id   bigserial primary key
 );
 
 insert into users(password, email, first_name, last_name, phone, role, image_id)

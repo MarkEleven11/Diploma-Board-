@@ -1,8 +1,12 @@
 package ru.skypro.homework.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterReq {
 
     private String username;
@@ -12,12 +16,4 @@ public class RegisterReq {
     private String phone;
     private Role role;
 
-    public RegisterReq(String username, String password, String firstName, String lastName, String phone, Role role) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.role = role;
-    }
 }

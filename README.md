@@ -1,9 +1,9 @@
 :mortar_board:
-#Diploma project for students of the Java developer course at Skypro: 
+# Diploma project for students of the Java developer course at Skypro: 
 development server application that implements the functionality of a platform for resale of things
 :scroll:
 :wrench:
-#Tech Stack:
+# Tech Stack:
 - Java 11, 
 - Maven
 - Docker
@@ -14,7 +14,7 @@ development server application that implements the functionality of a platform f
 - Swagger 
 - Lombok
   :honeybee:
-#Contributors:
+# Contributors:
 - Margarita Bychkova,
 - Tatyana Tokmantseva,
 - Alexander Titov,

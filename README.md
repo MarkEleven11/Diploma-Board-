@@ -10,8 +10,8 @@ development server application that implements the functionality of a platform f
 # Tech Stack:
 - Java 11, 
 - Maven,
-- Docker
-- Spring 2.7.10 (web, data-jpa, security)
+- Docker,
+- Spring 2.7.10 (web, data-jpa, security),
 - PostgreSQL, 
 - H2 Database, 
 - Liquibase, 
@@ -24,6 +24,6 @@ development server application that implements the functionality of a platform f
 - Margarita Bychkova,
 - Tatyana Tokmantseva,
 - Alexander Titov,
-- Irina Kapkova
+- Irina Kapkova.
   
   :ok:

@@ -1,11 +1,14 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.datetime.standard.DateTimeFormatterFactory;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.CreateComment;
 import ru.skypro.homework.dto.ResponseWrapperComment;
+import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
+import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
@@ -21,10 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
-    private final UserService userService;
     private final AdService adService;
     private final CommentRepository commentRepository;
     private final CommentMapper mapper;
+
+    private final DateTimeFormatter localFormatter = new DateTimeFormatterFactory(" dd MMMM yyyy в HH:mm:ss)").createDateTimeFormatter();
 
     @Override
     public ResponseWrapperComment getComments(int id) {
@@ -34,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment add(int id, CreateComment comment, String name) {
-        CommentEntity entity = mapper.createCommentToEntity(comment, adService.getEntity(id), userService.getEntity(name));
+    public Comment add(AdEntity adEntity, CreateComment comment, UserEntity userEntity) {
+        CommentEntity entity = mapper.createCommentToEntity(comment, adEntity, userEntity);
         return mapper.entityToCommentDto(commentRepository.save(entity));
     }
 
@@ -45,10 +49,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment update(int commentId, Comment comment, String email) {
+    public Comment update(int commentId, Comment comment) {
         CommentEntity entity = getEntity(commentId);
-        entity.setText(comment.getText() + "(отредактировал(а) " + userService.getEntity(email).getFirstName() +
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern(" dd MMMM yyyy в HH:mm:ss)")));
+        entity.setText(comment.getText() + LocalDateTime.now().format(localFormatter));
         return mapper.entityToCommentDto(commentRepository.save(entity));
     }
 

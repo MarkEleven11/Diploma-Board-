@@ -13,8 +13,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
-
 @RequiredArgsConstructor
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -27,13 +25,8 @@ public class ImageServiceImpl implements ImageService {
         ImageEntity entity = repository.save(new ImageEntity());
         Path filePath = getPath(entity);
         Files.createDirectories(filePath.getParent());
-        try (
-                InputStream is = image.getInputStream();
-                OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
-                BufferedInputStream bis = new BufferedInputStream(is, 1024);
-                BufferedOutputStream bos = new BufferedOutputStream(os, 1024)) {
-            bis.transferTo(bos);
-        }
+        byte[] bytes = image.getBytes();
+        Files.write(filePath, bytes);
         return entity;
     }
 

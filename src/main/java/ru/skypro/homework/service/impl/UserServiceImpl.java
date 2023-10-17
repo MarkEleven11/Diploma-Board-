@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.User;
@@ -27,17 +28,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String name) {
-        userRepository.deleteByEmail(name);
-    }
-
-    @Override
     public User get(String name) {
         return mapper.entityToUserDto(getEntity(name));
     }
 
-    @Override
-    public UserEntity getEntity(String name) {
+    private UserEntity getEntity(String name) {
         return userRepository.findByEmail(name).orElseThrow(() -> new FindNoEntityException("пользователь"));
     }
 
@@ -52,14 +47,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public UserEntity getEntityById(int id) {
+    private UserEntity getEntityById(int id) {
         return userRepository.findById(id).orElseThrow(() -> new FindNoEntityException("пользователь"));
     }
 
     @Override
-    public void changePassword(String newPassword, String name) {
-        UserEntity entity = getEntity(name);
+    public void changePassword(String newPassword, UserDetails userDetails) {
+        UserEntity entity = getEntity(userDetails.getUsername());
         entity.setPassword(newPassword);
         userRepository.save(entity);
     }

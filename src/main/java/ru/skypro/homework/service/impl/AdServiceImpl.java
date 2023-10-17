@@ -9,12 +9,12 @@ import ru.skypro.homework.dto.FullAds;
 import ru.skypro.homework.dto.ResponseWrapperAds;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.ImageEntity;
+import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.ImageService;
-import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -24,32 +24,29 @@ import java.util.List;
 @Service
 public class AdServiceImpl implements AdService {
     private final AdRepository adRepository;
-    private final UserService userService;
     private final ImageService imageService;
     private final AdMapper mapper;
 
     @Override
-    public Ads add(CreateAds properties, MultipartFile image, String email) throws IOException {
-        AdEntity ad = mapper.createAdsToEntity(properties, userService.getEntity(email));
+    public Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException {
+        AdEntity ad = mapper.createAdsToEntity(properties, userEntity);
         ad.setImage(imageService.saveImage(image));
         return mapper.entityToAdsDto(adRepository.save(ad));
     }
 
     @Override
     public FullAds getFullAdsById(int id) {
-        return mapper.entityToFullAdsDto(getEntity(id));
+        return mapper.entityToFullAdsDto(getEntityById(id));
     }
 
     @Override
     public void delete(int id) throws IOException {
-        ImageEntity image = getEntity(id).getImage();
         adRepository.deleteById(id);
-        imageService.deleteImage(image);
     }
 
     @Override
     public Ads update(int id, CreateAds ads) {
-        AdEntity entity = getEntity(id);
+        AdEntity entity = getEntityById(id);
         entity.setTitle(ads.getTitle());
         entity.setDescription(ads.getDescription());
         entity.setPrice(ads.getPrice());
@@ -57,14 +54,13 @@ public class AdServiceImpl implements AdService {
         return mapper.entityToAdsDto(entity);
     }
 
-    @Override
-    public AdEntity getEntity(int id) {
+    private AdEntity getEntityById(int id) {
         return adRepository.findById(id).orElseThrow(() -> new FindNoEntityException("объявление"));
     }
 
     @Override
     public void uploadImage(int id, MultipartFile image) throws IOException {
-        AdEntity adEntity = getEntity(id);
+        AdEntity adEntity = getEntityById(id);
         ImageEntity imageEntity = adEntity.getImage();
         adEntity.setImage(imageService.saveImage(image));
         adRepository.save(adEntity);

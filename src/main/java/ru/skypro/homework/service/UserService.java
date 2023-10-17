@@ -1,5 +1,6 @@
 package ru.skypro.homework.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
@@ -10,16 +11,13 @@ public interface UserService {
 
     User update(User user, String name);
 
-    void delete(String name);
-
     User get(String name);
-
-    UserEntity getEntity(String name);
 
     void uploadImage(MultipartFile image, String name) throws IOException;
 
-    UserEntity getEntityById(int id);
-    void changePassword(String newPassword, String name);
+    void changePassword(String newPassword, UserDetails userDetails);
+
     boolean userExists(String username);
+
     void createUser(UserEntity user);
 }

@@ -40,7 +40,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public void delete(int id) throws IOException {
+    public void delete(int id) {
         adRepository.deleteById(id);
     }
 

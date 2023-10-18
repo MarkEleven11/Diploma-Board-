@@ -36,11 +36,13 @@ create table comments
     ad_id int not null references ads (ad_id) on delete cascade
 );
 
-insert into users(password, email, first_name, last_name, phone, role, image_id)
-values ('r3IwatD25TuCab.D2A1AT1be',
-        'irma.semenova@gmail.com',
-        'Irma',
-        'Semenova',
-        '+7(908)3456778',
-        'ADMIN',
-        null)
+/*
+*insert into users(password, email, first_name, last_name, phone, role, image_id)
+*values ('r3IwatD25TuCab.D2A1AT1be',
+*        'irma.semenova@gmail.com',
+*        'Irma',
+*        'Semenova',
+*        '+7(908)3456778',
+*        'ADMIN',
+*        null)
+ */

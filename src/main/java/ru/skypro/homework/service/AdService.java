@@ -9,6 +9,7 @@ import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.UserEntity;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface AdService {
 
@@ -26,5 +27,5 @@ public interface AdService {
 
     void uploadImage(Long id, MultipartFile image) throws IOException;
 
-    AdEntity get(Long id);
+    Optional<AdEntity> get(Long id);
 }

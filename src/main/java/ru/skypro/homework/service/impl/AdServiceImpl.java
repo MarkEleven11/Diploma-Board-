@@ -19,6 +19,7 @@ import ru.skypro.homework.service.ImageService;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -69,7 +70,7 @@ public class AdServiceImpl implements AdService {
         }
     }
 
-    public final AdEntity get(Long id) {
+    public final Optional<AdEntity> get(Long id) {
         return adRepository.findById(Math.toIntExact(id));
     }
 

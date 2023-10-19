@@ -14,7 +14,7 @@ public interface AdService {
 
     Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException;
 
-    FullAds getFullAdsById(int id);
+    FullAds getFullAdsById(Long id);
 
     ResponseWrapperAds getAllAds();
 
@@ -22,7 +22,9 @@ public interface AdService {
 
     void delete(int id) throws IOException;
 
-    Ads update(int id, CreateAds ads);
+    Ads update(Long id, CreateAds ads);
 
-    void uploadImage(int id, MultipartFile image) throws IOException;
+    void uploadImage(Long id, MultipartFile image) throws IOException;
+
+    AdEntity get(Long id);
 }

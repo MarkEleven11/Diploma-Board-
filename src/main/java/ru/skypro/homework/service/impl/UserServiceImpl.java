@@ -52,10 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(String newPassword, UserDetails userDetails) {
-        UserEntity entity = getEntity(userDetails.getUsername());
-        entity.setPassword(newPassword);
-        userRepository.save(entity);
+    public UserEntity findUserEntityByLogin(String username) {
+        return userRepository.findUserEntityByUsername(username);
     }
 
     @Override

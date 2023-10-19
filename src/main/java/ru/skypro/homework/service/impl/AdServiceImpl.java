@@ -35,7 +35,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public FullAds getFullAdsById(int id) {
+    public FullAds getFullAdsById(Long id) {
         return mapper.entityToFullAdsDto(getEntityById(id));
     }
 
@@ -45,7 +45,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public Ads update(int id, CreateAds ads) {
+    public Ads update(Long id, CreateAds ads) {
         AdEntity entity = getEntityById(id);
         entity.setTitle(ads.getTitle());
         entity.setDescription(ads.getDescription());
@@ -54,12 +54,12 @@ public class AdServiceImpl implements AdService {
         return mapper.entityToAdsDto(entity);
     }
 
-    private AdEntity getEntityById(int id) {
-        return adRepository.findById(id).orElseThrow(() -> new FindNoEntityException("объявление"));
+    private AdEntity getEntityById(Long id) {
+        return adRepository.findById(Math.toIntExact(id)).orElseThrow(() -> new FindNoEntityException("объявление"));
     }
 
     @Override
-    public void uploadImage(int id, MultipartFile image) throws IOException {
+    public void uploadImage(Long id, MultipartFile image) throws IOException {
         AdEntity adEntity = getEntityById(id);
         ImageEntity imageEntity = adEntity.getImage();
         adEntity.setImage(imageService.saveImage(image));
@@ -67,6 +67,10 @@ public class AdServiceImpl implements AdService {
         if (imageEntity != null) {
             imageService.deleteImage(imageEntity);
         }
+    }
+
+    public final AdEntity get(Long id) {
+        return adRepository.findById(Math.toIntExact(id));
     }
 
     @Override

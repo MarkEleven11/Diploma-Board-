@@ -1,6 +1,5 @@
 package ru.skypro.homework.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
@@ -15,7 +14,7 @@ public interface UserService {
 
     void uploadImage(MultipartFile image, String name) throws IOException;
 
-    void changePassword(String newPassword, UserDetails userDetails);
+    UserEntity findUserEntityByLogin(String username);
 
     boolean userExists(String username);
 

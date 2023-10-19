@@ -14,7 +14,6 @@ import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
-import ru.skypro.homework.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,8 +37,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment add(AdEntity adEntity, CreateComment comment, UserEntity userEntity) {
-        CommentEntity entity = mapper.createCommentToEntity(comment, adEntity, userEntity);
+    public Comment add(Long id, CreateComment comment, UserEntity userEntity) {
+        CommentEntity entity = mapper.createCommentToEntity(comment, adService.get(id), userEntity);
         return mapper.entityToCommentDto(commentRepository.save(entity));
     }
 

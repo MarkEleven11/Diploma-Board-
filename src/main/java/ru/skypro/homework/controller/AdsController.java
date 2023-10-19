@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.Ads;
@@ -21,10 +19,11 @@ import ru.skypro.homework.dto.FullAds;
 import ru.skypro.homework.dto.ResponseWrapperAds;
 import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.service.AdService;
-import ru.skypro.homework.service.CommentService;
-import ru.skypro.homework.service.UserService;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -34,8 +33,6 @@ import java.io.IOException;
 public class AdsController {
 
     private final AdService adService;
-    private final UserService userService;
-    private final CommentService commentService;
 
     @GetMapping
     @Operation(
@@ -69,6 +66,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ads> addAd(@RequestPart CreateAds properties, @RequestPart MultipartFile image,
                                      UserEntity userEntity) throws IOException {
         return ResponseEntity.ok(adService.add(properties, image, userEntity));
@@ -86,12 +84,13 @@ public class AdsController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<FullAds> getAds(@PathVariable Long id) {
         return ResponseEntity.ok(adService.getFullAdsById(id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.getEntity(#id).author.email.equals(#auth.name) or hasAuthority('DELETE_ANY_AD')")
+    @PreAuthorize("@adServiceImpl.getEntity(#id).author.email.equals(#auth.name)")
     public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) throws IOException {
         adService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -104,14 +103,16 @@ public class AdsController {
     }
 
     @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ResponseWrapperAds> getAdsMe(Authentication auth) {
         return ResponseEntity.ok(adService.getAllMyAds(auth.name()));
     }
 
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> updateImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
         adService.uploadImage(id, image);
         return ResponseEntity.ok().build();
     }
 
-}
+ }

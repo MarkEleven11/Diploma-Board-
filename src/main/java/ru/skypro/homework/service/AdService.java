@@ -10,6 +10,7 @@ import ru.skypro.homework.entity.UserEntity;
 
 import java.io.IOException;
 
+
 public interface AdService {
 
     Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException;

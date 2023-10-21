@@ -14,11 +14,8 @@ import java.nio.file.Path;
 @RequestMapping("/images")
 public class ImageController {
 
-    @Value("${path.to.image}")
     private String imagesPath;
-    @Value("${path.to.image.ads}")
     private String adsImagesPath;
-    @Value("${path.to.image.users}")
     private String usersImagesPath;
 
     @GetMapping("/ads/{imageId}")

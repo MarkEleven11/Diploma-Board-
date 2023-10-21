@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
         return mapper.entityToUserDto(getEntity(name));
     }
 
-    private UserEntity getEntity(String name) {
-        return userRepository.findByEmail(name).orElseThrow(() -> new FindNoEntityException("пользователь"));
+    private UserEntity getEntity(String username) {
+        return userRepository.findUserEntityByUsername(username);
     }
 
     @Override
@@ -52,17 +52,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findUserEntityByLogin(String username) {
+    public UserEntity findUserEntityByUsername(String username) {
         return userRepository.findUserEntityByUsername(username);
-    }
-
-    @Override
-    public boolean userExists(String username) {
-        return userRepository.findByEmail(username).isPresent();
     }
 
     @Override
     public void createUser(UserEntity user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public User getUser(UserDetails userDetails) {
+        return mapper.entityToUserDto(
+                findUserEntityByUsername(
+                        userDetails.getUsername()));
     }
 }

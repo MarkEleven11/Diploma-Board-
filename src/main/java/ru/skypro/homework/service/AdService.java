@@ -9,13 +9,12 @@ import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.UserEntity;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public interface AdService {
 
     Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException;
 
-    FullAds getFullAdsById(Long id);
+    FullAds getFullAdsById(int id);
 
     ResponseWrapperAds getAllAds();
 
@@ -23,9 +22,10 @@ public interface AdService {
 
     void delete(int id) throws IOException;
 
-    Ads update(Long id, CreateAds ads);
+    Ads update(int id, CreateAds ads);
 
-    void uploadImage(Long id, MultipartFile image) throws IOException;
+    void uploadImage(int id, MultipartFile image) throws IOException;
 
-    Optional<AdEntity> get(Long id);
+    AdEntity get(int id);
+
 }

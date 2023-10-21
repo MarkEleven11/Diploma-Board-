@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.CreateComment;
 import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
 
@@ -29,6 +30,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final UserService userService;
+    private final AdService adService;
 
     @GetMapping("/{id}/comments")
     @Operation(
@@ -42,7 +44,6 @@ public class CommentController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Comment> getComments(@PathVariable("id") Integer id,
                                                @RequestBody Comment comment) {
         commentService.getEntity(id);
@@ -63,11 +64,10 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<Comment> addComments(@PathVariable("id") Long id,
+    public ResponseEntity<Comment> addComments(@PathVariable("id") int id,
                                                @NotNull @RequestBody CreateComment comment) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        commentService.add(id, comment, userService.findUserEntityByLogin(userDetails.getUsername()));
+        commentService.add(adService.get(id), comment, userService.findUserEntityByUsername(userDetails.getUsername()));
         return ResponseEntity.ok().build();
     }
 
@@ -83,7 +83,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("@commentServiceImpl.getEntity(#id).author.email.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteComments(@PathVariable("adId") Integer adId,
                                                @PathVariable("commentId") Integer commentId) {
         commentService.delete(commentId);
@@ -104,7 +104,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.email.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Comment> updateComments(
             @PathVariable("commentId") Integer commentId,
             @RequestBody Comment comment, @PathVariable String adId) {

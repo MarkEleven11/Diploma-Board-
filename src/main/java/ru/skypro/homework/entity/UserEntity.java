@@ -3,6 +3,7 @@ package ru.skypro.homework.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String password;
-    private String email;
+    @Column(name = "username")
+    private String username;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -30,9 +32,9 @@ public class UserEntity {
     @JoinColumn(name = "image_id")
     private ImageEntity image;
 
-    public UserEntity(String password, String email, String firstName, String lastName, String phone, Role role) {
+    public UserEntity(String password, String username, String firstName, String lastName, String phone, Role role) {
         this.password = password;
-        this.email = email;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;

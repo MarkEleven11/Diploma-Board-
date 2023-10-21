@@ -44,7 +44,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword newPassword,
                                                    Authentication authentication) {
         if (authService.setPassword(newPassword, authentication.getName())) {
@@ -68,7 +67,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<User> getUser(Authentication authentication) {
         return ResponseEntity.ok(userService.get(authentication.getName()));
     }
@@ -88,7 +86,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<User> updateUser(@RequestBody User user, Authentication authentication) {
         return ResponseEntity.ok(userService.update(user, authentication.getName()));
     }
@@ -103,7 +100,6 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image, Authentication auth) throws IOException {
         userService.uploadImage(image, auth.getName());
         return ResponseEntity.ok().build();

@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset irina:1
+
 
 create table images
 (
@@ -10,7 +10,7 @@ create table users
 (
     user_id    serial primary key,
     password   varchar(50) not null,
-    email      varchar(70) not null unique ,
+    username   varchar(70) not null unique ,
     first_name varchar(30)  not null,
     last_name  varchar(30)  not null,
     phone      varchar(12)  not null,

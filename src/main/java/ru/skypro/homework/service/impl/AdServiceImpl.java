@@ -3,14 +3,10 @@ package ru.skypro.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.Ads;
-import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.dto.FullAds;
-import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.ImageEntity;
 import ru.skypro.homework.entity.UserEntity;
-import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
@@ -19,7 +15,6 @@ import ru.skypro.homework.service.ImageService;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,7 +31,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public FullAds getFullAdsById(Long id) {
+    public FullAds getFullAdsById(int id) {
         return mapper.entityToFullAdsDto(getEntityById(id));
     }
 
@@ -46,7 +41,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public Ads update(Long id, CreateAds ads) {
+    public Ads update(int id, CreateAds ads) {
         AdEntity entity = getEntityById(id);
         entity.setTitle(ads.getTitle());
         entity.setDescription(ads.getDescription());
@@ -55,12 +50,12 @@ public class AdServiceImpl implements AdService {
         return mapper.entityToAdsDto(entity);
     }
 
-    private AdEntity getEntityById(Long id) {
-        return adRepository.findById(Math.toIntExact(id)).orElseThrow(() -> new FindNoEntityException("объявление"));
+    private AdEntity getEntityById(int id) {
+        return adRepository.findById(id);
     }
 
     @Override
-    public void uploadImage(Long id, MultipartFile image) throws IOException {
+    public void uploadImage(int id, MultipartFile image) throws IOException {
         AdEntity adEntity = getEntityById(id);
         ImageEntity imageEntity = adEntity.getImage();
         adEntity.setImage(imageService.saveImage(image));
@@ -70,8 +65,9 @@ public class AdServiceImpl implements AdService {
         }
     }
 
-    public final Optional<AdEntity> get(Long id) {
-        return adRepository.findById(Math.toIntExact(id));
+    @Override
+    public final AdEntity get(int id) {
+        return adRepository.findById(id);
     }
 
     @Override

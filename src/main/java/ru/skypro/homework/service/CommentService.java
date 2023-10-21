@@ -12,7 +12,7 @@ public interface CommentService {
 
     ResponseWrapperComment getComments(int id);
 
-    Comment add(Long id, CreateComment comment, UserEntity userEntity);
+    Comment add(AdEntity adEntity, CreateComment comment, UserEntity userEntity);
 
     void delete(int commentId);
 

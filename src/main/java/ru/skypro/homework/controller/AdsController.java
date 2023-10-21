@@ -20,10 +20,7 @@ import ru.skypro.homework.dto.ResponseWrapperAds;
 import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.service.AdService;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -66,7 +63,6 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ads> addAd(@RequestPart CreateAds properties, @RequestPart MultipartFile image,
                                      UserEntity userEntity) throws IOException {
         return ResponseEntity.ok(adService.add(properties, image, userEntity));
@@ -84,33 +80,30 @@ public class AdsController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<FullAds> getAds(@PathVariable Long id) {
+    public ResponseEntity<FullAds> getAds(@PathVariable int id) {
         return ResponseEntity.ok(adService.getFullAdsById(id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.getEntity(#id).author.email.equals(#auth.name)")
-    public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) throws IOException {
+    @PreAuthorize("@adServiceImpl.get(#id).author.email.equals(#auth.name) or hasRole('ADMIN')")
+    public ResponseEntity<?> removeAd(@PathVariable int id) throws IOException {
         adService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.getEntity(#id).author.email.equals(#auth.name) or hasAuthority('UPDATE_ANY_AD')")
-    public ResponseEntity<Ads> updateAds(@PathVariable Long id, @RequestBody CreateAds ads, Authentication auth) {
+    @PreAuthorize("@adServiceImpl.get(#id).author.email.equals(#auth.name) or hasRole('ADMIN')")
+    public ResponseEntity<Ads> updateAds(@PathVariable int id, @RequestBody CreateAds ads, Authentication auth) {
         return ResponseEntity.ok(adService.update(id, ads));
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ResponseWrapperAds> getAdsMe(Authentication auth) {
         return ResponseEntity.ok(adService.getAllMyAds(auth.name()));
     }
 
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<?> updateImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<?> updateImage(@PathVariable int id, @RequestPart MultipartFile image) throws IOException {
         adService.uploadImage(id, image);
         return ResponseEntity.ok().build();
     }

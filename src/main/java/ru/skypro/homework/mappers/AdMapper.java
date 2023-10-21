@@ -16,7 +16,7 @@ public class AdMapper {
 
     public FullAds entityToFullAdsDto(AdEntity entity) {
         return new FullAds(entity.getPk(), entity.getAuthor().getFirstName(), entity.getAuthor().getLastName(),
-                entity.getDescription(), entity.getAuthor().getEmail(), entity.getImagePath(),
+                entity.getDescription(), entity.getAuthor().getUsername(), entity.getImagePath(),
                 entity.getAuthor().getPhone(), entity.getPrice(), entity.getTitle());
     }
 

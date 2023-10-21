@@ -85,14 +85,14 @@ public class AdsController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.get(#id).author.email.equals(#auth.name) or hasRole('ADMIN')")
-    public ResponseEntity<?> removeAd(@PathVariable int id) throws IOException {
+    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
+    public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) throws IOException {
         adService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.get(#id).author.email.equals(#auth.name) or hasRole('ADMIN')")
+    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Ads> updateAds(@PathVariable int id, @RequestBody CreateAds ads, Authentication auth) {
         return ResponseEntity.ok(adService.update(id, ads));
     }

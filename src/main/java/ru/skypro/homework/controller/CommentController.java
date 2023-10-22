@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +86,8 @@ public class CommentController {
     )
     @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteComments(@PathVariable("adId") Integer adId,
-                                               @PathVariable("commentId") Integer commentId) {
+                                               @PathVariable("commentId") Integer commentId,
+                                               Authentication auth) {
         commentService.delete(commentId);
         return ResponseEntity.ok().build();
     }
@@ -107,7 +109,8 @@ public class CommentController {
     @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Comment> updateComments(
             @PathVariable("commentId") Integer commentId,
-            @RequestBody Comment comment, @PathVariable String adId) {
+            @RequestBody Comment comment, @PathVariable String adId,
+            Authentication auth) {
         commentService.update(commentId, comment);
         return ResponseEntity.ok(comment);
     }

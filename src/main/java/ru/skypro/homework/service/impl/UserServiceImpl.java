@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.ImageEntity;
 import ru.skypro.homework.entity.UserEntity;
-import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.UserMapper;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.ImageService;
@@ -45,10 +44,6 @@ public class UserServiceImpl implements UserService {
         if (imageEntity != null) {
             imageService.deleteImage(imageEntity);
         }
-    }
-
-    private UserEntity getEntityById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new FindNoEntityException("пользователь"));
     }
 
     @Override

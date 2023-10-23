@@ -3,7 +3,6 @@ package ru.skypro.homework.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.apachecommons.CommonsLog;
 import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;

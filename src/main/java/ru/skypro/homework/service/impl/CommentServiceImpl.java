@@ -12,7 +12,6 @@ import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
-import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 
 import java.time.LocalDateTime;
@@ -23,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
-    private final AdService adService;
     private final CommentRepository commentRepository;
     private final CommentMapper mapper;
 

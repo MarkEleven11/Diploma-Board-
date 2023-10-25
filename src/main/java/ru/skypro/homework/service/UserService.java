@@ -20,6 +20,9 @@ public interface UserService {
 
     void createUser(UserEntity user);
 
-    User getUser(UserDetails userDetails);
+    User getUser(UserEntity userDetails);
+
+    boolean userExists(String username);
+
 }
 

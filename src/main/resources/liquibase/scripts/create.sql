@@ -9,7 +9,7 @@ create table images
 create table users
 (
     user_id    serial primary key,
-    password   varchar(50) not null,
+    password   varchar(80) not null,
     username   varchar(70) not null unique ,
     first_name varchar(30)  not null,
     last_name  varchar(30)  not null,

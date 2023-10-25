@@ -1,6 +1,7 @@
 package ru.skypro.homework.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.skypro.homework.dto.Role;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserEntity {
     @Id
     @Column(name = "user_id")
@@ -27,7 +29,7 @@ public class UserEntity {
     private String phone;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private ImageEntity image;
 

@@ -16,13 +16,13 @@ public class AdEntity {
     @Column(name = "ad_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pk;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity author;
     private String title;
     private int price;
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private ImageEntity image;
 

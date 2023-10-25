@@ -1,6 +1,5 @@
 package ru.skypro.homework.filter;
 
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

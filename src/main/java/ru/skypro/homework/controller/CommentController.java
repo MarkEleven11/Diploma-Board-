@@ -7,18 +7,31 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
+import ru.skypro.homework.dto.CreateComment;
 import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.service.AdService;
+import ru.skypro.homework.service.CommentService;
+import ru.skypro.homework.service.UserService;
 
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("comments")
+@RequestMapping("/ads")
 @RequiredArgsConstructor
 @Tag(name = "Комментарии", description = "Методы работы с комментариями.")
 public class CommentController {
+
+    private final CommentService commentService;
+    private final UserService userService;
+    private final AdService adService;
 
     @GetMapping("/{id}/comments")
     @Operation(
@@ -32,10 +45,9 @@ public class CommentController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    public ResponseEntity<Comment> getComments(@PathVariable("ad_pk") Integer adPk,
-                                                                       @PathVariable("id") Integer id,
-                                                                        @RequestBody Comment comment) {
-        //CommentService.getCommentById(id);
+    public ResponseEntity<Comment> getComments(@PathVariable("id") Integer id,
+                                               @RequestBody Comment comment) {
+        commentService.getEntity(id);
         return ResponseEntity.ok(comment);
     }
 
@@ -53,9 +65,11 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    public ResponseEntity<Comment> addComments(@PathVariable("id") Integer id,
-                                               @NotNull @RequestBody Comment comment) {
-        return ResponseEntity.ok(comment);
+    public ResponseEntity<Comment> addComments(@PathVariable("id") int id,
+                                               @NotNull @RequestBody CreateComment comment) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        commentService.add(adService.get(id), comment, userService.findUserEntityByUsername(userDetails.getUsername()));
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
@@ -70,9 +84,12 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
+    @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteComments(@PathVariable("adId") Integer adId,
-                                               @PathVariable("commentId") Integer commentId) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+                                               @PathVariable("commentId") Integer commentId,
+                                               Authentication auth) {
+        commentService.delete(commentId);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{adId}/comments/{commentId}")
@@ -89,10 +106,12 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
+    @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Comment> updateComments(
-            @PathVariable("adId") Integer adId,
             @PathVariable("commentId") Integer commentId,
-            @RequestBody Comment comment) {
+            @RequestBody Comment comment, @PathVariable String adId,
+            Authentication auth) {
+        commentService.update(commentId, comment);
         return ResponseEntity.ok(comment);
     }
 }

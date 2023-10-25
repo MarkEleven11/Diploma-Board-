@@ -5,13 +5,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.User;
+import ru.skypro.homework.service.AuthService;
+import ru.skypro.homework.service.ImageService;
+import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 
@@ -21,6 +26,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Tag(name = "Пользователи", description = "Методы работы с пользователем.")
 public class UserController {
+
+    private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/set_password")
     @Operation(
@@ -36,9 +44,13 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword newPassword) {
-            return ResponseEntity.ok(newPassword);
+    public ResponseEntity<NewPassword> setPassword(@RequestBody NewPassword newPassword,
+                                                   Authentication authentication) {
+        if (authService.setPassword(newPassword, authentication.getName())) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @GetMapping("/me")
@@ -55,9 +67,8 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> getUser() {
-        return ResponseEntity.ok(new User());
+    public ResponseEntity<User> getUser(Authentication authentication) {
+        return ResponseEntity.ok(userService.get(authentication.getName()));
     }
 
     @PatchMapping("/me")
@@ -75,9 +86,8 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> updateUser(@RequestBody User user) throws IOException {
-        return ResponseEntity.ok(user);
+    public ResponseEntity<User> updateUser(@RequestBody User user, Authentication authentication) {
+        return ResponseEntity.ok(userService.update(user, authentication.getName()));
     }
 
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -90,8 +100,8 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image) {
-        return ResponseEntity.status(200).build();
+    public ResponseEntity<Void> updateUserImage(@RequestParam MultipartFile image, Authentication auth) throws IOException {
+        userService.uploadImage(image, auth.getName());
+        return ResponseEntity.ok().build();
     }
 }

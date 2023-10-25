@@ -14,3 +14,4 @@ public class Ads {
     private int price;
     private String title;
 }
+

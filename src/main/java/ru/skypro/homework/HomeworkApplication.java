@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class HomeworkApplication {
   public static void main(String[] args) {
-    Logger logger = LoggerFactory.getLogger(HomeworkApplication.class);
-    logger.debug("*** Start Project Application ***");
     SpringApplication.run(HomeworkApplication.class, args);
   }
+
 }

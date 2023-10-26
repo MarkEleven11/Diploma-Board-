@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateComment;
-import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.dto.CreateOrUpdateComment;
+import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
@@ -40,7 +40,7 @@ public class CommentController {
             tags = {"Комментарии"},
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK", content = {
-                            @Content(mediaType = "*/*", schema = @Schema(implementation = ResponseWrapperAds.class))
+                            @Content(mediaType = "*/*", schema = @Schema(implementation = Ads.class))
                     }),
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
@@ -66,7 +66,7 @@ public class CommentController {
             }
     )
     public ResponseEntity<Comment> addComments(@PathVariable("id") int id,
-                                               @NotNull @RequestBody CreateComment comment) {
+                                               @NotNull @RequestBody CreateOrUpdateComment comment) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         commentService.add(adService.get(id), comment, userService.findUserEntityByUsername(userDetails.getUsername()));
         return ResponseEntity.ok().build();

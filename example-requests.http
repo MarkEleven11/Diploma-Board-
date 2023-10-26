@@ -1,9 +1,9 @@
-GET http://localhost:3000/ads/1/comments
+GET http://localhost:8080/ads/1/comments
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
 ###
-POST http://localhost:3000/login
+POST http://localhost:8080/login
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/register
+POST http://localhost:8080/register
 Content-Type: application/json
 
 {
@@ -25,17 +25,17 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/ads/me
+GET http://localhost:8080/ads/me
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
 ###
-GET http://localhost:3000/users/me
+GET http://localhost:8080/users/me
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
 ###
-PATCH http://localhost:3000/users/me
+PATCH http://localhost:8080/users/me
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
@@ -46,12 +46,12 @@ Authorization: Basic user@gmail.com password
 }
 
 ###
-GET http://localhost:3000/ads
+GET http://localhost:8080/ads
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
 ###
-POST http://localhost:3000/users/set_password
+POST http://localhost:8080/users/set_password
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 
@@ -61,7 +61,7 @@ Authorization: Basic user@gmail.com password
 }
 
 ###
-POST http://localhost:3000/ads
+POST http://localhost:8080/ads
 Content-Type: application/json
 Authorization: Basic user@gmail.com password
 

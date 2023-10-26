@@ -1,10 +1,10 @@
 package ru.skypro.homework.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.Ad;
+import ru.skypro.homework.dto.CreateOrUpdateAd;
+import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.dto.Ads;
-import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.dto.FullAds;
-import ru.skypro.homework.dto.ResponseWrapperAds;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.UserEntity;
 
@@ -13,17 +13,17 @@ import java.io.IOException;
 
 public interface AdService {
 
-    Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException;
+    Ad add(CreateOrUpdateAd properties, MultipartFile image, UserEntity userEntity) throws IOException;
 
-    FullAds getFullAdsById(int id);
+    ExtendedAd getFullAdsById(int id);
 
-    ResponseWrapperAds getAllAds();
+    Ads getAllAds();
 
-    ResponseWrapperAds getAllMyAds(String name);
+    Ads getAllMyAds(String name);
 
     void delete(int id) throws IOException;
 
-    Ads update(int id, CreateAds ads);
+    Ad update(int id, CreateOrUpdateAd ads);
 
     void uploadImage(int id, MultipartFile image) throws IOException;
 

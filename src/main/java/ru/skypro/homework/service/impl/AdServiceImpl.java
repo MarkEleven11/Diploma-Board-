@@ -24,14 +24,14 @@ public class AdServiceImpl implements AdService {
     private final AdMapper mapper;
 
     @Override
-    public Ads add(CreateAds properties, MultipartFile image, UserEntity userEntity) throws IOException {
+    public Ad add(CreateOrUpdateAd properties, MultipartFile image, UserEntity userEntity) throws IOException {
         AdEntity ad = mapper.createAdsToEntity(properties, userEntity);
         ad.setImage(imageService.saveImage(image));
         return mapper.entityToAdsDto(adRepository.save(ad));
     }
 
     @Override
-    public FullAds getFullAdsById(int id) {
+    public ExtendedAd getFullAdsById(int id) {
         return mapper.entityToFullAdsDto(getEntityById(id));
     }
 
@@ -41,7 +41,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public Ads update(int id, CreateAds ads) {
+    public Ad update(int id, CreateOrUpdateAd ads) {
         AdEntity entity = getEntityById(id);
         entity.setTitle(ads.getTitle());
         entity.setDescription(ads.getDescription());
@@ -71,18 +71,18 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public ResponseWrapperAds getAllAds() {
+    public Ads getAllAds() {
         return getWrapper(adRepository.findAll());
     }
 
     @Override
-    public ResponseWrapperAds getAllMyAds(String name) {
+    public Ads getAllMyAds(String name) {
         return getWrapper(adRepository.findAllByAuthorUsername(name));
     }
 
-    private ResponseWrapperAds getWrapper(List<AdEntity> list) {
-        List<Ads> result = new LinkedList<>();
+    private Ads getWrapper(List<AdEntity> list) {
+        List<Ad> result = new LinkedList<>();
         list.forEach((entity -> result.add(mapper.entityToAdsDto(entity))));
-        return new ResponseWrapperAds(result.size(), result);
+        return new Ads(result.size(), result);
     }
 }

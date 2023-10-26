@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.datetime.standard.DateTimeFormatterFactory;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateComment;
-import ru.skypro.homework.dto.ResponseWrapperComment;
+import ru.skypro.homework.dto.CreateOrUpdateComment;
+import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
 import ru.skypro.homework.entity.UserEntity;
@@ -28,14 +28,14 @@ public class CommentServiceImpl implements CommentService {
     private final DateTimeFormatter localFormatter = new DateTimeFormatterFactory(" dd MMMM yyyy в HH:mm:ss)").createDateTimeFormatter();
 
     @Override
-    public ResponseWrapperComment getComments(int id) {
+    public Comments getComments(int id) {
         List<Comment> result = new LinkedList<>();
         commentRepository.findAllByAd_Pk(id).forEach(entity -> result.add(mapper.entityToCommentDto(entity)));
-        return new ResponseWrapperComment(result.size(), result);
+        return new Comments(result.size(), result);
     }
 
     @Override
-    public Comment add(AdEntity adEntity, CreateComment comment, UserEntity userEntity) {
+    public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
         CommentEntity entity = mapper.createCommentToEntity(comment, adEntity, userEntity);
         return mapper.entityToCommentDto(commentRepository.save(entity));
     }

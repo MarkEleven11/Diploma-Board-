@@ -2,7 +2,7 @@ package ru.skypro.homework.mapping;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.skypro.homework.dto.RegisterReq;
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.Role;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.ImageEntity;
@@ -60,7 +60,7 @@ class UserMapperTest {
 
     @Test
     void registerReqDtoToEntityTest() {
-        RegisterReq req = new RegisterReq();
+        Register req = new Register();
         req.setPassword(password);
         req.setRole(role);
         req.setUsername(email);

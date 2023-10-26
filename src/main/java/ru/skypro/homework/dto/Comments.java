@@ -7,7 +7,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-public class ResponseWrapperComment {
+public class Comments {
     private int count;
     private List<Comment> results;
 }

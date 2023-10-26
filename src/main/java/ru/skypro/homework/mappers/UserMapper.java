@@ -1,7 +1,7 @@
 package ru.skypro.homework.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.skypro.homework.dto.RegisterReq;
+import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
 
@@ -19,7 +19,7 @@ public class UserMapper {
         return entity;
     }
 
-    public UserEntity registerReqDtoToEntity(RegisterReq req) {
+    public UserEntity registerReqDtoToEntity(Register req) {
         return new UserEntity(req.getPassword(), req.getUsername(), req.getFirstName(),
                 req.getLastName(), req.getPhone(), req.getRole());
     }

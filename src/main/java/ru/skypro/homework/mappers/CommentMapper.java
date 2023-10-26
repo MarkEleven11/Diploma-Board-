@@ -2,7 +2,7 @@ package ru.skypro.homework.mappers;
 
 import org.springframework.stereotype.Component;
 import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateComment;
+import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
 import ru.skypro.homework.entity.UserEntity;
@@ -18,8 +18,8 @@ public class CommentMapper {
                 entity.getPk(), entity.getText());
     }
 
-    public CommentEntity createCommentToEntity(CreateComment createComment, AdEntity ad, UserEntity author) {
-        return new CommentEntity(author, LocalDateTime.now(), createComment.getText(), ad);
+    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad, UserEntity author) {
+        return new CommentEntity(author, LocalDateTime.now(), createOrUpdateComment.getText(), ad);
     }
 
     private long getMillis(LocalDateTime time) {

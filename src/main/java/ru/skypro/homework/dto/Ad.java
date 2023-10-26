@@ -7,14 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FullAds {
-    private int pk;
-    private String authorFirstName;
-    private String authorLastName;
-    private String description;
-    private String email;
+public class Ad {
+    private int author;
     private String image;
-    private String phone;
+    private int pk;
     private int price;
     private String title;
 }
+

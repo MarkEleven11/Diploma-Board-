@@ -2,9 +2,9 @@ package ru.skypro.homework.mapping;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.skypro.homework.dto.Ads;
-import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.dto.FullAds;
+import ru.skypro.homework.dto.Ad;
+import ru.skypro.homework.dto.CreateOrUpdateAd;
+import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.ImageEntity;
 import ru.skypro.homework.entity.UserEntity;
@@ -24,7 +24,7 @@ class AdMapperTest {
         UserEntity user = new UserEntity();
         user.setId(id);
         AdEntity entity = new AdEntity(pk, user, title, price, description, new ImageEntity());
-        Ads ads = mapper.entityToAdsDto(entity);
+        Ad ads = mapper.entityToAdsDto(entity);
         Assertions.assertEquals(ads.getPk(), pk);
         Assertions.assertEquals(ads.getAuthor(), id);
         Assertions.assertEquals(ads.getTitle(), title);
@@ -40,30 +40,30 @@ class AdMapperTest {
         String phone = "+78005553535";
         UserEntity user = new UserEntity();
         user.setId(id);
-        user.setEmail(email);
+        user.setUsername(email);
         user.setPhone(phone);
         user.setFirstName(authorFirstName);
         user.setLastName(authorLastName);
         AdEntity entity = new AdEntity(pk, user, title, price, description, new ImageEntity());
-        FullAds fullAds = mapper.entityToFullAdsDto(entity);
-        Assertions.assertEquals(fullAds.getPk(), pk);
-        Assertions.assertEquals(fullAds.getAuthorFirstName(), authorFirstName);
-        Assertions.assertEquals(fullAds.getAuthorLastName(), authorLastName);
-        Assertions.assertEquals(fullAds.getDescription(), description);
-        Assertions.assertEquals(fullAds.getImage(), "/ads/image/" + pk);
-        Assertions.assertEquals(fullAds.getPhone(), phone);
-        Assertions.assertEquals(fullAds.getEmail(), email);
-        Assertions.assertEquals(fullAds.getPrice(), price);
+        ExtendedAd extendedAd = mapper.entityToFullAdsDto(entity);
+        Assertions.assertEquals(extendedAd.getPk(), pk);
+        Assertions.assertEquals(extendedAd.getAuthorFirstName(), authorFirstName);
+        Assertions.assertEquals(extendedAd.getAuthorLastName(), authorLastName);
+        Assertions.assertEquals(extendedAd.getDescription(), description);
+        Assertions.assertEquals(extendedAd.getImage(), "/ads/image/" + pk);
+        Assertions.assertEquals(extendedAd.getPhone(), phone);
+        Assertions.assertEquals(extendedAd.getEmail(), email);
+        Assertions.assertEquals(extendedAd.getPrice(), price);
     }
 
     @Test
     void createAdsToEntity() {
-        CreateAds createAds = new CreateAds();
-        createAds.setDescription(description);
-        createAds.setPrice(price);
-        createAds.setTitle(title);
+        CreateOrUpdateAd createOrUpdateAd = new CreateOrUpdateAd();
+        createOrUpdateAd.setDescription(description);
+        createOrUpdateAd.setPrice(price);
+        createOrUpdateAd.setTitle(title);
         UserEntity user = new UserEntity();
-        AdEntity adEntity = mapper.createAdsToEntity(createAds, user);
+        AdEntity adEntity = mapper.createAdsToEntity(createOrUpdateAd, user);
         Assertions.assertEquals(adEntity.getAuthor(), user);
         Assertions.assertEquals(adEntity.getPrice(), price);
         Assertions.assertEquals(adEntity.getDescription(), description);

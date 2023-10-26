@@ -106,7 +106,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
+    @PreAuthorize("@commentServiceImpl.getEntity(#commentId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Comment> updateComments(
             @PathVariable("commentId") Integer commentId,
             @RequestBody Comment comment, @PathVariable String adId,

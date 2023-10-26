@@ -15,6 +15,7 @@ import ru.skypro.homework.service.ImageService;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,8 +72,13 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public ResponseWrapperAds getAllAds() {
-        return getWrapper(adRepository.findAll());
+    public final ResponseWrapperAds getAllAds() {
+        List<AdEntity> entities = adRepository.findAll();
+        return ResponseWrapperAds.builder()
+                .results(entities.stream()
+                        .map(mapper::entityToAdsDto)
+                        .collect(Collectors.toList()))
+                .count(entities.size()).build();
     }
 
     @Override

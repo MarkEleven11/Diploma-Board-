@@ -57,9 +57,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(UserDetails userDetails) {
+    public User getUser(UserEntity userDetails) {
         return mapper.entityToUserDto(
                 findUserEntityByUsername(
                         userDetails.getUsername()));
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return userRepository.existsUserEntityByUsername(username);
     }
 }

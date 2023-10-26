@@ -17,9 +17,10 @@ public interface UserService {
 
     UserEntity findUserEntityByUsername(String username);
 
-
     void createUser(UserEntity user);
 
-    User getUser(UserDetails userDetails);
+    User getUser(UserEntity userDetails);
+
+    boolean userExists(String username);
 }
 

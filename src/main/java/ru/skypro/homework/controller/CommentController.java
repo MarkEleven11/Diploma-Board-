@@ -84,7 +84,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
+    @PreAuthorize("@commentServiceImpl.getEntity(#commentId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteComments(@PathVariable("adId") Integer adId,
                                                @PathVariable("commentId") Integer commentId,
                                                Authentication auth) {

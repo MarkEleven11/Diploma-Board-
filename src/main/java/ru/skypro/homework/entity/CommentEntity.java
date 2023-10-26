@@ -17,14 +17,14 @@ public class CommentEntity {
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pk;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity author;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "comments_text")
     private String text;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ad_id")
     private AdEntity ad;
 

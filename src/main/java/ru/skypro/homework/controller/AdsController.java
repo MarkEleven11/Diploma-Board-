@@ -21,6 +21,7 @@ import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.UserService;
+import ru.skypro.homework.service.impl.AdServiceImpl;
 
 import java.io.IOException;
 
@@ -52,6 +53,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ads> getAllAds() {
         return ResponseEntity.ok(adService.getAllAds());
     }
@@ -70,6 +72,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ad> addAd(@RequestPart CreateOrUpdateAd properties,
                                     @RequestPart MultipartFile image) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -97,7 +100,10 @@ public class AdsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
-    public ResponseEntity<?> removeAd(@PathVariable int id, Authentication auth) throws IOException {
+    public ResponseEntity<?> removeAd(@PathVariable int id,
+                                      Authentication auth,
+                                      AdServiceImpl adServiceImpl
+    ) throws IOException {
         adService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -106,7 +112,8 @@ public class AdsController {
     @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Ad> updateAds(@PathVariable int id,
                                         @RequestBody CreateOrUpdateAd ads,
-                                        Authentication auth) {
+                                        Authentication auth,
+                                        AdServiceImpl adServiceImpl) {
         return ResponseEntity.ok(adService.update(id, ads));
     }
 

@@ -20,6 +20,7 @@ import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.UserService;
+import ru.skypro.homework.service.impl.CommentServiceImpl;
 
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
@@ -87,6 +88,7 @@ public class CommentController {
     @PreAuthorize("@commentServiceImpl.getEntity(#adId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Void> deleteComments(@PathVariable("adId") Integer adId,
                                                @PathVariable("commentId") Integer commentId,
+                                               CommentServiceImpl commentServiceImpl,
                                                Authentication auth) {
         commentService.delete(commentId);
         return ResponseEntity.ok().build();
@@ -110,6 +112,7 @@ public class CommentController {
     public ResponseEntity<Comment> updateComments(
             @PathVariable("commentId") Integer commentId,
             @RequestBody Comment comment, @PathVariable String adId,
+            CommentServiceImpl commentServiceImpl,
             Authentication auth) {
         commentService.update(commentId, comment);
         return ResponseEntity.ok(comment);

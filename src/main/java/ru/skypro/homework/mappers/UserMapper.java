@@ -7,9 +7,14 @@ import ru.skypro.homework.entity.UserEntity;
 
 @Component
 public class UserMapper {
+
     public User entityToUserDto(UserEntity entity) {
-        return new User(entity.getId(), entity.getUsername(), entity.getFirstName(),
-                entity.getLastName(), entity.getPhone(), entity.getImagePath());
+        return new User(entity.getId(),
+                entity.getUsername(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getPhone(),
+                entity.getImagePath());
     }
 
     public UserEntity userDtoToEntity(User user, UserEntity entity) {
@@ -20,7 +25,11 @@ public class UserMapper {
     }
 
     public UserEntity registerReqDtoToEntity(Register req) {
-        return new UserEntity(req.getPassword(), req.getUsername(), req.getFirstName(),
-                req.getLastName(), req.getPhone(), req.getRole());
+        return new UserEntity(req.getPassword(),
+                req.getUsername(),
+                req.getFirstName(),
+                req.getLastName(),
+                req.getPhone(),
+                req.getRole());
     }
 }

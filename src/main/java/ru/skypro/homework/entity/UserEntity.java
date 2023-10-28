@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +35,28 @@ public class UserEntity {
     @JoinColumn(name = "image_id")
     private ImageEntity image;
 
+    @Column(name = "reg_date")
+    private LocalDateTime registrationDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AdEntity> ads;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentEntity> comments;
+
+    @Column(name = "non_expired")
+    private boolean nonExpired = true;
+
+    @Column(name = "non_locked")
+    private boolean nonLocked = true;
+
+    @Column(name = "non_credentials_expired")
+    private boolean nonCredentialsExpired = true;
+
+    @Column(name = "is_enabled")
+    private boolean isEnabled = true;
+
+
     public UserEntity(String password, String username, String firstName, String lastName, String phone, Role role) {
         this.password = password;
         this.username = username;
@@ -40,6 +64,10 @@ public class UserEntity {
         this.lastName = lastName;
         this.phone = phone;
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getImagePath() {

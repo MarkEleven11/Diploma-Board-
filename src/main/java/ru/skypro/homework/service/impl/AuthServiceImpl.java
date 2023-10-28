@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
@@ -46,14 +47,6 @@ public class AuthServiceImpl implements AuthService {
                         .role(register.getRole())
                         .build());
         return true;
-    }
-    @Override
-    public boolean setPassword(NewPassword newPassword, String name) {
-        if (encoder.matches(newPassword.getCurrentPassword(), manager.loadUserByUsername(name).getPassword())) {
-            manager.changePassword(encoder.encode(newPassword.getNewPassword()), name);
-            return true;
-        }
-        return false;
     }
 
 }

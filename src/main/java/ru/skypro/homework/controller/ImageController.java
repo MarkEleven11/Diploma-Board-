@@ -15,11 +15,11 @@ import java.nio.file.Path;
 @RequestMapping("/images")
 public class ImageController {
 
-    @Value("src/main/resources/static")
+    @Value("${path.to.image}")
     private String imagesPath;
-    @Value("/images/user_images")
+    @Value("${path.to.image.users}")
     private String usersImagesPath;
-    @Value("/images/ad_images")
+    @Value("${path.to.image.ads}")
     private String adsImagesPath;
 
     @GetMapping("/ads/{imageId}")

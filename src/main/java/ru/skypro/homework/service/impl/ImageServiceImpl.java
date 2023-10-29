@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -82,4 +83,8 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    @Override
+    public void deleteImage(String image) throws IOException {
+        Files.deleteIfExists(Paths.get(imageDirectory + "/" + image));
+    }
 }

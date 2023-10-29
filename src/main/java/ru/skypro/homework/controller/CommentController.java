@@ -45,7 +45,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    public ResponseEntity<Comments> getComments(@PathVariable("id") Long id) {
+    public ResponseEntity<Comments> getComments(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(commentService.getComments(id));
     }
 
@@ -63,7 +63,7 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    public ResponseEntity<Comment> addComments(@PathVariable("id") Long id,
+    public ResponseEntity<Comment> addComments(@PathVariable("id") Integer id,
                                                @NotNull @RequestBody CreateOrUpdateComment comment) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         commentService.add(adService.get(id), comment, userService.findUserEntityByLogin(userDetails.getUsername()));
@@ -83,7 +83,7 @@ public class CommentController {
             }
     )
     public ResponseEntity<HttpStatus> deleteComments(@PathVariable Integer adId,
-                                                     @PathVariable Long commentId) {
+                                                     @PathVariable Integer commentId) {
         commentService.delete(commentId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -103,7 +103,7 @@ public class CommentController {
             }
     )
     public ResponseEntity<Comment> updateComments(@PathVariable Long adId,
-                                                  @PathVariable Long commentId,
+                                                  @PathVariable Integer commentId,
                                                   @RequestBody CreateOrUpdateComment createOrUpdateComment) {
         return ResponseEntity.ok(
                 commentService.update(commentId, createOrUpdateComment)

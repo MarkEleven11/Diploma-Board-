@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comments getComments(Long id) {
+    public Comments getComments(int id) {
         return mapper.entityToComments(
                 commentRepository.findAllByAdId(id));
     }
@@ -45,25 +45,25 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long commentId) {
+    public void delete(int commentId) {
         commentRepository.deleteById(commentId);
     }
 
     @Override
-    public Comment update(Long id, CreateOrUpdateComment comment) {
+    public Comment update(int id, CreateOrUpdateComment comment) {
         return mapper.entityToCommentDto(
                 commentRepository.save(
                         getEntity(id).setFieldsAndReturnEntity(comment)));
     }
 
     @Override
-    public CommentEntity getEntity(Long commentId) {
+    public CommentEntity getEntity(int commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new FindNoEntityException("комментарий"));
     }
 
     @Override
-    public Comments findCommentsByAdId(Long id) {
+    public Comments findCommentsByAdId(int id) {
         return mapper.entityToComments(
                 commentRepository.findAllByAdId(id));
     }

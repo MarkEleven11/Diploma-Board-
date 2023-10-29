@@ -15,7 +15,7 @@ public interface AdService {
 
     AdEntity save(AdEntity model);
 
-    AdEntity get(Long id);
+    AdEntity get(int id);
 
     Ads getAllAds();
 
@@ -23,15 +23,14 @@ public interface AdService {
               CreateOrUpdateAd createOrUpdateAd,
               MultipartFile multipartFile) throws IOException;
 
-    ExtendedAd getExtendedAdsById(Long id);
+    ExtendedAd getExtendedAdsById(int id);
 
     Ads getAllMyAds(UserEntity userEntity);
 
-    Ad update(Long id, CreateOrUpdateAd ads);
+    Ad update(int id, CreateOrUpdateAd ads);
 
-    Ad uploadImage(Long id, MultipartFile image) throws IOException;
+    Ad uploadImage(int id, MultipartFile image) throws IOException;
 
-    String deleteAd(UserEntity userEntity, Long id);
-
+    void delete(int id) throws IOException;
 
 }

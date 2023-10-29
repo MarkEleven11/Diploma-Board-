@@ -2,7 +2,7 @@
 
 create table users
 (
-    user_id    bigserial constraint users_pk primary key,
+    user_id    int constraint users_pk primary key,
     password   varchar,
     username   varchar,
     first_name varchar,
@@ -19,8 +19,8 @@ create table users
 
 create table ads
 (
-    ad_id          bigserial primary key,
-    user_id        bigint references users(user_id),
+    ad_id          int primary key,
+    user_id        int references users(user_id),
     title          text,
     price          int,
     description    text,
@@ -28,11 +28,11 @@ create table ads
 );
 create table comments
 (
-    comment_id     bigserial primary key,
-    user_id        bigint references users(user_id),
+    comment_id     int primary key,
+    user_id        int references users(user_id),
     created_at     timestamp,
     comments_text  text,
-    ad_id bigint references ads (ad_id)
+    ad_id          int references ads (ad_id)
 );
 
 /*

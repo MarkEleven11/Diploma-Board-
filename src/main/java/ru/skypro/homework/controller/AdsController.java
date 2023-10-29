@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -100,7 +102,7 @@ public class AdsController {
                     )
             }
     )
-    public ResponseEntity<ExtendedAd> getAds(@PathVariable Long id) {
+    public ResponseEntity<ExtendedAd> getAds(@PathVariable Integer id) {
         ExtendedAd ad = adService.getExtendedAdsById(id);
         return ResponseEntity.ok(
                 ad);
@@ -133,9 +135,9 @@ public class AdsController {
 
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> removeAd(@PathVariable Long id) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        adService.deleteAd(userService.findUserEntityByLogin(userDetails.getUsername()), id);
+    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
+    public ResponseEntity<HttpStatus> removeAd(@PathVariable Integer id, Authentication auth) throws IOException {
+        adService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -165,7 +167,7 @@ public class AdsController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<Ad> updateAds(@PathVariable Long id,
+    public ResponseEntity<Ad> updateAds(@PathVariable Integer id,
                                         @RequestBody CreateOrUpdateAd ads) {
         return ResponseEntity.ok(adService.update(id, ads));
     }
@@ -230,7 +232,7 @@ public class AdsController {
             }
     )
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Ad> updateImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<Ad> updateImage(@PathVariable Integer id, @RequestPart MultipartFile image) throws IOException {
         return ResponseEntity.ok(adService.uploadImage(id, image));
 
     }

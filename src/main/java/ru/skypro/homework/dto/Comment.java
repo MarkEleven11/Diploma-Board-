@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Comment {
-    private Long author;
+    private int author;
     private String authorImage;
     private String authorFirstName;
-    private LocalDateTime createdAt;
-    private Long pk;
+    private long createdAt;
+    private int pk;
     private String text;
 }

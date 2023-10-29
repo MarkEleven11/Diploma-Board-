@@ -61,7 +61,8 @@ public class AdsController {
             tags = {"Объявления"},
             responses = {
                     @ApiResponse(responseCode = "201", description = "Created", content = {
-                            @Content(mediaType = "*/*", schema = @Schema(implementation = Ad.class))
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Ad.class))
                     }),
                     @ApiResponse(responseCode = "404", description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden"),
@@ -85,10 +86,18 @@ public class AdsController {
             summary = "getFullAd",
             tags = {"Объявления"},
             responses = {
-                    @ApiResponse(responseCode = "200", description = "OK", content = {
-                            @Content(mediaType = "*/*", schema = @Schema(implementation = ExtendedAd.class))
-                    }),
-                    @ApiResponse(responseCode = "404", description = "Not Found")
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Добавлена",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ExtendedAd.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Нет авторизации"
+                    )
             }
     )
     public ResponseEntity<ExtendedAd> getAds(@PathVariable Long id) {
@@ -97,6 +106,32 @@ public class AdsController {
                 ad);
     }
 
+    @Operation(
+            summary = "Удаление объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Удалена",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = HttpStatus.class))
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Нет авторизации"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Недопустимый запрос"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Объявление не найдено"
+                    )
+            }
+
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> removeAd(@PathVariable Long id) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -104,12 +139,62 @@ public class AdsController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Обновление объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Объявление обновлено",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = Ad.class))
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Нет авторизации"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Недопустимый запрос"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Объявление не найдено"
+                    )
+            }
+    )
     @PatchMapping("/{id}")
     public ResponseEntity<Ad> updateAds(@PathVariable Long id,
                                         @RequestBody CreateOrUpdateAd ads) {
         return ResponseEntity.ok(adService.update(id, ads));
     }
 
+    @Operation(
+            summary = "Получение объявлений пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Объявление обновлено",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = Ads.class))
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Нет авторизации"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Недопустимый запрос"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Объявление не найдено"
+                    )
+            }
+    )
     @GetMapping("/me")
     public ResponseEntity<Ads> getAdsMe() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -119,6 +204,31 @@ public class AdsController {
         );
     }
 
+    @Operation(
+            summary = "Обновление фотографии пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Фото обновлено",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(schema = @Schema(implementation = Ad.class))
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Нет авторизации"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Недопустимый запрос"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Объявление не найдено"
+                    )
+            }
+    )
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Ad> updateImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
         return ResponseEntity.ok(adService.uploadImage(id, image));

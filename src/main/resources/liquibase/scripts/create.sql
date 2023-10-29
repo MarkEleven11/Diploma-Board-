@@ -1,11 +1,5 @@
 -- liquibase formatted sql
 
-
-create table images
-(
-    image_id   bigserial primary key
-);
-
 create table users
 (
     user_id    bigserial constraint users_pk primary key,
@@ -15,7 +9,7 @@ create table users
     last_name  varchar,
     phone      varchar,
     role       varchar,
-    image_id bigint references images (image_id),
+    image      varchar,
     reg_date                timestamp,
     non_expired             boolean default true,
     non_locked              boolean default true,
@@ -26,19 +20,19 @@ create table users
 create table ads
 (
     ad_id          bigserial primary key,
-    user_id        bigserial references users(user_id),
+    user_id        bigint references users(user_id),
     title          text,
     price          int,
     description    text,
-    image_id bigint references images (image_id)
+    image          varchar
 );
 create table comments
 (
     comment_id     bigserial primary key,
-    user_id        int references users(user_id),
+    user_id        bigint references users(user_id),
     created_at     timestamp,
     comments_text  text,
-    ad_id int references ads (ad_id)
+    ad_id bigint references ads (ad_id)
 );
 
 /*

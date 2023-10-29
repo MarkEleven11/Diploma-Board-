@@ -1,35 +1,29 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.UserService;
 
-import java.nio.CharBuffer;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
-
     private final PasswordEncoder encoder;
 
-    private final UserDetailsManager manager;
-
     @Override
-    public boolean login(String userName, char[] password) {
+    public boolean login(String userName, String password) {
         if (!userService.userExists(userName)) {
             return false;
         }
-        return encoder.matches(CharBuffer.wrap(password),
-                userService.findUserEntityByUsername(userName).getPassword());
+        return encoder.matches(password,
+                userService.loadUserByUsername(userName).getPassword());
     }
 
     @Override
@@ -37,14 +31,19 @@ public class AuthServiceImpl implements AuthService {
         if (userService.userExists(register.getUsername())) {
             return false;
         }
-        userService.createUser(
+        userService.post(
                 UserEntity.builder()
-                        .password(encoder.encode(CharBuffer.wrap(register.getPassword())))
+                        .password(encoder.encode(register.getPassword()))
                         .username(register.getUsername())
                         .firstName(register.getFirstName())
                         .lastName(register.getLastName())
                         .phone(register.getPhone())
                         .role(register.getRole())
+                        .isEnabled(true)
+                        .nonLocked(true)
+                        .nonExpired(true)
+                        .nonCredentialsExpired(true)
+                        .registrationDate(LocalDateTime.now())
                         .build());
         return true;
     }

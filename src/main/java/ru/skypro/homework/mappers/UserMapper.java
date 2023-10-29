@@ -24,12 +24,4 @@ public class UserMapper {
         return entity;
     }
 
-    public UserEntity registerReqDtoToEntity(Register req) {
-        return new UserEntity(req.getPassword(),
-                req.getUsername(),
-                req.getFirstName(),
-                req.getLastName(),
-                req.getPhone(),
-                req.getRole());
-    }
 }

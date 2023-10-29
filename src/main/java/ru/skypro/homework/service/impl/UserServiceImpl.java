@@ -10,85 +10,80 @@ import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
-import ru.skypro.homework.mappers.UserMapper;
 import ru.skypro.homework.entity.UserWrapper;
+import ru.skypro.homework.mappers.UserMapper;
 import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final ImageService imageService;
-    private final UserRepository userRepository;
-    private final UserMapper mapper;
+
     private final PasswordEncoder passwordEncoder;
 
+    private final UserMapper userMapper;
+
+    private final ImageService imageService;
+
+    private final UserRepository repository;
+
     @Override
-    public User update(User user, String name) {
-        return mapper.entityToUserDto(userRepository.save(mapper.userDtoToEntity(user, getEntity(name))));
+    public UserEntity post(UserEntity model) {
+            return repository.save(model);
+    }
+
+    @Override
+    public UserEntity patch(UserEntity model) {
+            return repository.save(model);
     }
 
     @Override
     public UpdateUser createOrUpdate(UserDetails userDetails, UpdateUser updateUser) {
-        UserEntity userEntity = findUserEntityByUsername(userDetails.getUsername());
+        UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
         userEntity.setFirstName(updateUser.getFirstName());
         userEntity.setLastName(updateUser.getLastName());
         userEntity.setPhone(updateUser.getPhone());
-        userRepository.save(userEntity);
+        patch(userEntity);
         return updateUser;
     }
 
     @Override
-    public User get(String name) {
-        return mapper.entityToUserDto(getEntity(name));
-    }
-
-    private UserEntity getEntity(String username) {
-        return userRepository.findUserEntityByUsername(username);
-    }
-
-    @Override
-    public UserEntity uploadImage(MultipartFile image, UserDetails userDetails) throws IOException {
-        UserEntity userEntity = findUserEntityByUsername(userDetails.getUsername());
-        userEntity.setImage(imageService.saveImage(image));
-        return userRepository.save(userEntity);
+    public UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile) throws IOException {
+        UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
+        userEntity.setImage(imageService.saveUserImage(multipartFile));
+        return patch(userEntity);
     }
 
     @Override
-    public UserEntity findUserEntityByUsername(String username) {
-        return userRepository.findUserEntityByUsername(username);
-    }
-
-    @Override
-    public void createUser(UserEntity user) {
-        userRepository.save(user);
-    }
-
-    @Override
-    public User getUser(UserEntity userDetails) {
-        return mapper.entityToUserDto(
-                findUserEntityByUsername(
-                        userDetails.getUsername()));
+    public UserEntity findUserEntityByLogin(String username) {
+        return repository.findUserEntityByUsername(username);
     }
 
     @Override
     public boolean userExists(String username) {
-        return userRepository.existsUserEntityByUsername(username);
+        return repository.existsUserEntityByUsername(username);
     }
 
     @Override
     public UserEntity updateUserPassword(NewPassword newPassword, UserDetails userDetails) {
-        UserEntity userEntity = findUserEntityByUsername(userDetails.getUsername());
+        UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
         userEntity.setPassword(passwordEncoder.encode(newPassword.getNewPassword()));
-        userRepository.save(userEntity);
+        post(userEntity);
         return userEntity;
     }
 
     @Override
+    public User getUser(UserDetails userDetails) {
+        return userMapper.entityToUserDto(
+                findUserEntityByLogin(
+                        userDetails.getUsername()));
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserWrapper(findUserEntityByUsername(username));
+        return new UserWrapper(findUserEntityByLogin(username));
     }
 }

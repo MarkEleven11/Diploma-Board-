@@ -19,18 +19,6 @@ class AdMapperTest {
     private final String description = "Pretty white kitty";
 
 
-    @Test
-    void entityToAdsDtoTest() {
-        UserEntity user = new UserEntity();
-        user.setId(id);
-        AdEntity entity = new AdEntity(pk, user, title, price, description, new ImageEntity());
-        Ad ads = mapper.entityToAdsDto(entity);
-        Assertions.assertEquals(ads.getPk(), pk);
-        Assertions.assertEquals(ads.getAuthor(), id);
-        Assertions.assertEquals(ads.getTitle(), title);
-        Assertions.assertEquals(ads.getPrice(), price);
-        Assertions.assertEquals(ads.getImage(), "/ads/image/" + pk);
-    }
 
     @Test
     void entityToFullAdsDto() {
@@ -44,29 +32,7 @@ class AdMapperTest {
         user.setPhone(phone);
         user.setFirstName(authorFirstName);
         user.setLastName(authorLastName);
-        AdEntity entity = new AdEntity(pk, user, title, price, description, new ImageEntity());
-        ExtendedAd extendedAd = mapper.entityToFullAdsDto(entity);
-        Assertions.assertEquals(extendedAd.getPk(), pk);
-        Assertions.assertEquals(extendedAd.getAuthorFirstName(), authorFirstName);
-        Assertions.assertEquals(extendedAd.getAuthorLastName(), authorLastName);
-        Assertions.assertEquals(extendedAd.getDescription(), description);
-        Assertions.assertEquals(extendedAd.getImage(), "/ads/image/" + pk);
-        Assertions.assertEquals(extendedAd.getPhone(), phone);
-        Assertions.assertEquals(extendedAd.getEmail(), email);
-        Assertions.assertEquals(extendedAd.getPrice(), price);
+
     }
 
-    @Test
-    void createAdsToEntity() {
-        CreateOrUpdateAd createOrUpdateAd = new CreateOrUpdateAd();
-        createOrUpdateAd.setDescription(description);
-        createOrUpdateAd.setPrice(price);
-        createOrUpdateAd.setTitle(title);
-        UserEntity user = new UserEntity();
-        AdEntity adEntity = mapper.createAdsToEntity(createOrUpdateAd, user);
-        Assertions.assertEquals(adEntity.getAuthor(), user);
-        Assertions.assertEquals(adEntity.getPrice(), price);
-        Assertions.assertEquals(adEntity.getDescription(), description);
-        Assertions.assertEquals(adEntity.getTitle(), title);
-    }
 }

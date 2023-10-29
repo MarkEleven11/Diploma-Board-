@@ -9,13 +9,15 @@ import ru.skypro.homework.entity.UserEntity;
 
 public interface CommentService {
 
-    Comments getComments(int id);
+    Comments getComments(Long id);
 
     Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity);
 
-    void delete(int commentId);
+    void delete(Long commentId);
 
-    Comment update(int commentId, Comment newComment);
+    Comment update(Long commentId, CreateOrUpdateComment comment);
 
-    CommentEntity getEntity(int commentId);
+    CommentEntity getEntity(Long commentId);
+
+    Comments findCommentsByAdId(Long id);
 }

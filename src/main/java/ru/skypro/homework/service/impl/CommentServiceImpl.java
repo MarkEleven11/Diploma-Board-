@@ -27,34 +27,44 @@ public class CommentServiceImpl implements CommentService {
 
     private final DateTimeFormatter localFormatter = new DateTimeFormatterFactory(" dd MMMM yyyy в HH:mm:ss)").createDateTimeFormatter();
 
+    public final CommentEntity save(CommentEntity commentEntity) {
+        return commentRepository.save(commentEntity);
+    }
+
     @Override
-    public Comments getComments(int id) {
-        List<Comment> result = new LinkedList<>();
-        commentRepository.findAllByAd_Pk(id).forEach(entity -> result.add(mapper.entityToCommentDto(entity)));
-        return new Comments(result.size(), result);
+    public Comments getComments(Long id) {
+        return mapper.entityToComments(
+                commentRepository.findAllByAdId(id));
     }
 
     @Override
     public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
-        CommentEntity entity = mapper.createCommentToEntity(comment, adEntity, userEntity);
-        return mapper.entityToCommentDto(commentRepository.save(entity));
+        return mapper.entityToCommentDto(
+                save(
+                        new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
     }
 
     @Override
-    public void delete(int commentId) {
+    public void delete(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 
     @Override
-    public Comment update(int commentId, Comment comment) {
-        CommentEntity entity = getEntity(commentId);
-        entity.setText(comment.getText() + LocalDateTime.now().format(localFormatter));
-        return mapper.entityToCommentDto(commentRepository.save(entity));
+    public Comment update(Long id, CreateOrUpdateComment comment) {
+        return mapper.entityToCommentDto(
+                commentRepository.save(
+                        getEntity(id).setFieldsAndReturnEntity(comment)));
     }
 
     @Override
-    public CommentEntity getEntity(int commentId) {
+    public CommentEntity getEntity(Long commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new FindNoEntityException("комментарий"));
+    }
+
+    @Override
+    public Comments findCommentsByAdId(Long id) {
+        return mapper.entityToComments(
+                commentRepository.findAllByAdId(id));
     }
 }

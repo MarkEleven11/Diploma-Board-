@@ -6,11 +6,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,6 @@ import ru.skypro.homework.dto.ExtendedAd;
 import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.UserService;
-import ru.skypro.homework.service.impl.AdServiceImpl;
 
 import java.io.IOException;
 
@@ -53,7 +50,6 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ads> getAllAds() {
         return ResponseEntity.ok(adService.getAllAds());
     }
@@ -72,14 +68,15 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Ad> addAd(@RequestPart CreateOrUpdateAd properties,
                                     @RequestPart MultipartFile image) throws IOException {
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return ResponseEntity.ok(
-                adService.add(properties,
-                        image,
-                        userService.findUserEntityByUsername(userDetails.getUsername())));
+                adService.create(userService.findUserEntityByLogin(userDetails.getUsername()),
+                        properties, image)
+        );
     }
 
     @GetMapping("/{id}")
@@ -94,38 +91,38 @@ public class AdsController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    public ResponseEntity<ExtendedAd> getAds(@PathVariable int id) {
-        return ResponseEntity.ok(adService.getFullAdsById(id));
+    public ResponseEntity<ExtendedAd> getAds(@PathVariable Long id) {
+        ExtendedAd ad = adService.getExtendedAdsById(id);
+        return ResponseEntity.ok(
+                ad);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
-    public ResponseEntity<?> removeAd(@PathVariable int id,
-                                      Authentication auth,
-                                      AdServiceImpl adServiceImpl
-    ) throws IOException {
-        adService.delete(id);
+    public ResponseEntity<HttpStatus> removeAd(@PathVariable Long id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        adService.deleteAd(userService.findUserEntityByLogin(userDetails.getUsername()), id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
-    public ResponseEntity<Ad> updateAds(@PathVariable int id,
-                                        @RequestBody CreateOrUpdateAd ads,
-                                        Authentication auth,
-                                        AdServiceImpl adServiceImpl) {
+    public ResponseEntity<Ad> updateAds(@PathVariable Long id,
+                                        @RequestBody CreateOrUpdateAd ads) {
         return ResponseEntity.ok(adService.update(id, ads));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Ads> getAdsMe(Authentication auth) {
-        return ResponseEntity.ok(adService.getAllMyAds(auth.name()));
+    public ResponseEntity<Ads> getAdsMe() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(
+                adService.getAllMyAds(
+                        userService.findUserEntityByLogin(userDetails.getUsername()))
+        );
     }
 
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateImage(@PathVariable int id, @RequestPart MultipartFile image) throws IOException {
-        adService.uploadImage(id, image);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Ad> updateImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
+        return ResponseEntity.ok(adService.uploadImage(id, image));
+
     }
 
  }

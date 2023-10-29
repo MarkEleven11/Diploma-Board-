@@ -13,20 +13,25 @@ import java.io.IOException;
 
 public interface AdService {
 
-    Ad add(CreateOrUpdateAd properties, MultipartFile image, UserEntity userEntity) throws IOException;
+    AdEntity save(AdEntity model);
 
-    ExtendedAd getFullAdsById(int id);
+    AdEntity get(Long id);
 
     Ads getAllAds();
 
-    Ads getAllMyAds(String name);
+    Ad create(UserEntity userEntity,
+              CreateOrUpdateAd createOrUpdateAd,
+              MultipartFile multipartFile) throws IOException;
 
-    void delete(int id) throws IOException;
+    ExtendedAd getExtendedAdsById(Long id);
 
-    Ad update(int id, CreateOrUpdateAd ads);
+    Ads getAllMyAds(UserEntity userEntity);
 
-    void uploadImage(int id, MultipartFile image) throws IOException;
+    Ad update(Long id, CreateOrUpdateAd ads);
 
-    AdEntity get(int id);
+    Ad uploadImage(Long id, MultipartFile image) throws IOException;
+
+    String deleteAd(UserEntity userEntity, Long id);
+
 
 }

@@ -30,13 +30,10 @@ public class AdsController {
     private final AdService adService;
     private final UserService userService;
 
+
     public AdsController(AdService adService, UserService userService) {
         this.adService = adService;
         this.userService = userService;
-    }
-
-    public AdsController(AdService adService) {
-        this.adService = adService;
     }
 
     @GetMapping

@@ -1,7 +1,6 @@
 package ru.skypro.homework.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
 

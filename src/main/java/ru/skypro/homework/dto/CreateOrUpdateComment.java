@@ -1,8 +1,10 @@
 package ru.skypro.homework.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class CreateComment {
+@Builder
+public class CreateOrUpdateComment {
     private String text;
 }

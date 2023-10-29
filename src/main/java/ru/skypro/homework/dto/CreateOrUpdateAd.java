@@ -1,10 +1,12 @@
 package ru.skypro.homework.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class CreateAds {
+@Builder
+public class CreateOrUpdateAd {
     private String description;
-    private int price;
+    private Integer price;
     private String title;
 }

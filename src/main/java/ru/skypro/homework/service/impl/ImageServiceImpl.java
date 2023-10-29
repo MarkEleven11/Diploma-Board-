@@ -4,49 +4,81 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.entity.ImageEntity;
-import ru.skypro.homework.exceptions.FindNoEntityException;
-import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class ImageServiceImpl implements ImageService {
-    private final ImageRepository repository;
-    @Value("${path.to.images}")
+    @Value("src/main/resources/static")
     private String imageDirectory;
+    @Value("/images/user_images")
+    private String usersImagesPath;
+    @Value("/images/ad_images")
+    private String adsImagesPath;
 
-    @Override
-    public ImageEntity saveImage(MultipartFile image) throws IOException {
-        ImageEntity entity = repository.save(new ImageEntity());
-        Path filePath = getPath(entity);
-        Files.createDirectories(filePath.getParent());
-        byte[] bytes = image.getBytes();
-        Files.write(filePath, bytes);
-        return entity;
+    @PostConstruct
+    private void init() throws FileNotFoundException {
+        Path path = Path.of(imageDirectory);
+        Path path1 = Path.of(imageDirectory + usersImagesPath);
+        Path path2 = Path.of(imageDirectory + adsImagesPath);
+        Path path3 = Path.of(imageDirectory + "/images");
+        try {
+            if (Files.notExists(path)) {
+                Files.createDirectory(path.toAbsolutePath());
+            }
+            if (Files.notExists(path3)) {
+                Files.createDirectory(path3.toAbsolutePath());
+            }
+            if (Files.notExists(path1)) {
+                Files.createDirectory(path1.toAbsolutePath());
+            }
+            if (Files.notExists(path2)) {
+                Files.createDirectory(path2.toAbsolutePath());
+            }
+        } catch (IOException e) {
+            throw new FileNotFoundException();
+        }
     }
 
     @Override
-    public byte[] getImage(long id) throws IOException {
-        return Files.readAllBytes(getPath(getEntity(id)));
+    public String saveUserImage(MultipartFile file) {
+        String filePathInStorage = usersImagesPath + File.separator + getNewFileName(file);
+        File newFile = new File(imageDirectory + filePathInStorage);
+        uploadFile(file, newFile);
+        return filePathInStorage;
     }
 
     @Override
-    public ImageEntity getEntity(long id) {
-        return repository.findById(id).orElseThrow(() -> new FindNoEntityException("изображение"));
+    public String saveAdsImage(MultipartFile file) {
+        String filePathInStorage = adsImagesPath + File.separator + getNewFileName(file);
+        File newFile = new File(imageDirectory + filePathInStorage);
+        uploadFile(file, newFile);
+        return filePathInStorage;
     }
 
-    @Override
-    public void deleteImage(ImageEntity image) throws IOException {
-        Files.deleteIfExists(getPath(image));
-        repository.delete(image);
+    private String getNewFileName(MultipartFile file) {
+        String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+        String extension = split[split.length - 1];
+        return UUID.randomUUID() + "." + extension;
     }
 
-    private Path getPath(ImageEntity image) {
-        return Path.of(imageDirectory, String.valueOf(image.getId()));
+    private void uploadFile(MultipartFile file, File newFile) {
+        try (BufferedInputStream bis = new BufferedInputStream(file.getInputStream());
+             FileOutputStream fos = new FileOutputStream(newFile);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            byte[] buffer = new byte[1024];
+            while (bis.read(buffer) > 0) {
+                bos.write(buffer);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

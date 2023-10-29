@@ -1,26 +1,30 @@
 package ru.skypro.homework.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.NewPassword;
+import ru.skypro.homework.dto.UpdateUser;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
 
 import java.io.IOException;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    User update(User user, String name);
+    UserEntity post(UserEntity model);
 
-    User get(String name);
+    UserEntity patch(UserEntity model);
 
-    void uploadImage(MultipartFile image, String name) throws IOException;
+    UpdateUser createOrUpdate(UserDetails userDetails, UpdateUser user);
 
-    UserEntity findUserEntityByUsername(String username);
+    UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile) throws IOException;
 
-    void createUser(UserEntity user);
+    UserEntity findUserEntityByLogin(String login);
 
-    User getUser(UserEntity userDetails);
+    boolean userExists(String login);
 
-    boolean userExists(String username);
+    UserEntity updateUserPassword(NewPassword newPassword, UserDetails userDetails);
+
+    User getUser(UserDetails userDetails);
 }
-

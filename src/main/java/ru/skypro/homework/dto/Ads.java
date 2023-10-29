@@ -1,17 +1,15 @@
 package ru.skypro.homework.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class Ads {
-    private int author;
-    private String image;
-    private int pk;
-    private int price;
-    private String title;
+    private Integer count;
+    private List<Ad> results;
 }
-

@@ -5,7 +5,6 @@ import ru.skypro.homework.dto.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class UserEntity {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(name = "password")
     private String password;
     @Column(name = "username")
@@ -38,29 +37,13 @@ public class UserEntity {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "reg_date")
-    private LocalDateTime registrationDate = LocalDateTime.now();
-
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<AdEntity> ads;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
 
-    @Column(name = "non_expired")
-    private boolean nonExpired = true;
-
-    @Column(name = "non_locked")
-    private boolean nonLocked = true;
-
-    @Column(name = "non_credentials_expired")
-    private boolean nonCredentialsExpired = true;
-
-    @Column(name = "is_enabled")
-    private boolean isEnabled = true;
-
-
-    public UserEntity(Long id, String username,
+    public UserEntity(int id, String username,
                       String password, String firstName,
                       String lastName, String phone,
                       Role role, String image) {
@@ -78,20 +61,16 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity user = (UserEntity) o;
-        return nonExpired == user.nonExpired && nonLocked == user.nonLocked
-                && nonCredentialsExpired == user.nonCredentialsExpired
-                && isEnabled == user.isEnabled && Objects.equals(id, user.id)
+        return  Objects.equals(id, user.id)
                 && Objects.equals(username, user.username) && Objects.equals(password, user.password)
                 && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName)
-                && Objects.equals(phone, user.phone) && role == user.role && Objects.equals(image, user.image)
-                && Objects.equals(registrationDate, user.registrationDate);
+                && Objects.equals(phone, user.phone) && role == user.role && Objects.equals(image, user.image);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, firstName,
-                lastName, phone, role, image, registrationDate,
-                nonExpired, nonLocked, nonCredentialsExpired, isEnabled);
+                lastName, phone, role, image);
     }
     public String getImagePath() {
         return image == null ? null : "/users/image/" + id;

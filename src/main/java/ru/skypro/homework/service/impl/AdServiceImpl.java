@@ -10,6 +10,7 @@ import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.AdMapper;
 import ru.skypro.homework.repository.AdRepository;
 import ru.skypro.homework.service.AdService;
+import ru.skypro.homework.service.CommentService;
 import ru.skypro.homework.service.ImageService;
 
 import java.lang.module.FindException;
@@ -22,6 +23,7 @@ public class AdServiceImpl implements AdService {
     private final AdRepository adRepository;
     private final ImageService imageService;
     private final AdMapper mapper;
+    private final CommentService commentService;
 
     @Override
     public final AdEntity save(AdEntity model) {
@@ -30,6 +32,9 @@ public class AdServiceImpl implements AdService {
 
     public final void delete(Long id) {
         adRepository.deleteById(id);
+        //Добавить методы удаления картинки
+        //commentService.delete(get(id));
+        //imageService.delete;
     }
 
     @Override
@@ -88,7 +93,9 @@ public class AdServiceImpl implements AdService {
             delete(id);
             return "Объявление удалено администратором";
         } else {
-            if (get(id).getAuthor().getId().equals(userEntity.getId())) {
+            int deleteAdAuthor = get(id).getAuthor().getId();
+            int userId = userEntity.getId();
+            if (deleteAdAuthor == userId) {
                 delete(id);
                 return "Объявление удалено автором";
             } else {

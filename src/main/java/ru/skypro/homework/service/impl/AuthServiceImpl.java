@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
         if (userService.userExists(register.getUsername())) {
             return false;
         }
-        userService.post(
+        userService.save(
                 UserEntity.builder()
                         .password(encoder.encode(register.getPassword()))
                         .username(register.getUsername())
@@ -39,11 +39,6 @@ public class AuthServiceImpl implements AuthService {
                         .lastName(register.getLastName())
                         .phone(register.getPhone())
                         .role(register.getRole())
-                        .isEnabled(true)
-                        .nonLocked(true)
-                        .nonExpired(true)
-                        .nonCredentialsExpired(true)
-                        .registrationDate(LocalDateTime.now())
                         .build());
         return true;
     }

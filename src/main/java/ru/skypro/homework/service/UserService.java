@@ -12,9 +12,7 @@ import java.io.IOException;
 
 public interface UserService extends UserDetailsService {
 
-    UserEntity post(UserEntity model);
-
-    UserEntity patch(UserEntity model);
+    UserEntity save(UserEntity model);
 
     UpdateUser createOrUpdate(UserDetails userDetails, UpdateUser user);
 

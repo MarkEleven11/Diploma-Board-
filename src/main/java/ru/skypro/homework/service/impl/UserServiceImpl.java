@@ -16,8 +16,6 @@ import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
-import java.io.IOException;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -31,12 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Override
-    public UserEntity post(UserEntity model) {
-            return repository.save(model);
-    }
-
-    @Override
-    public UserEntity patch(UserEntity model) {
+    public UserEntity save(UserEntity model) {
             return repository.save(model);
     }
 
@@ -46,15 +39,15 @@ public class UserServiceImpl implements UserService {
         userEntity.setFirstName(updateUser.getFirstName());
         userEntity.setLastName(updateUser.getLastName());
         userEntity.setPhone(updateUser.getPhone());
-        patch(userEntity);
+        save(userEntity);
         return updateUser;
     }
 
     @Override
-    public UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile) throws IOException {
+    public UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile)  {
         UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
         userEntity.setImage(imageService.saveUserImage(multipartFile));
-        return patch(userEntity);
+        return save(userEntity);
     }
 
     @Override
@@ -71,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity updateUserPassword(NewPassword newPassword, UserDetails userDetails) {
         UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
         userEntity.setPassword(passwordEncoder.encode(newPassword.getNewPassword()));
-        post(userEntity);
+        save(userEntity);
         return userEntity;
     }
 

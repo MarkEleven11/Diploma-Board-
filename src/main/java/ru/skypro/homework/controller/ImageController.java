@@ -28,7 +28,7 @@ public class ImageController {
     }
 
     @GetMapping("/users/{inageId}")
-    public byte[] getUserImage(@PathVariable String imageId, @PathVariable String inageId) throws IOException {
-        return Files.readAllBytes(Path.of(imagesPath + usersImagesPath + File.separator + imageId));
+    public byte[] getUserImage( @PathVariable String inageId) throws IOException {
+        return Files.readAllBytes(Path.of(imagesPath + usersImagesPath + File.separator + inageId));
     }
 }

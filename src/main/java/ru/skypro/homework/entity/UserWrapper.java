@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -18,9 +19,10 @@ public class UserWrapper implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(
-                "ROLE_" + this.userEntity.getRole().toString()));
+                "ROLE_" + userEntity.getRole().toString()));
     }
 
+    @NotNull
     @Override
     public String getPassword() {
         return this.userEntity.getPassword();

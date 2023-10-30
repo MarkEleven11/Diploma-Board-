@@ -3,18 +3,13 @@
 create table users
 (
     user_id    int constraint users_pk primary key,
-    password   varchar,
+    "password"   varchar,
     username   varchar,
     first_name varchar,
     last_name  varchar,
     phone      varchar,
-    role       varchar,
-    image      varchar,
-    reg_date                timestamp,
-    non_expired             boolean default true,
-    non_locked              boolean default true,
-    non_credentials_expired boolean default true,
-    is_enabled              boolean default true
+    "role"       varchar,
+    image      varchar
 );
 
 create table ads

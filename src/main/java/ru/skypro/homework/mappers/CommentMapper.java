@@ -9,19 +9,21 @@ import ru.skypro.homework.entity.CommentEntity;
 import ru.skypro.homework.entity.UserEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class CommentMapper {
     public Comment entityToCommentDto(CommentEntity entity) {
+        long createdAtInMillisecondsSinceEpoch = entity.getCreatedAt().toInstant(ZoneOffset.UTC).toEpochMilli();
         Comment comment = new Comment();
         comment.setPk(entity.getId());
         comment.setAuthor(entity.getAuthor().getId());
         comment.setAuthorImage(entity.getAuthor().getImage());
         comment.setText(entity.getText());
         comment.setAuthorFirstName(entity.getAuthor().getFirstName());
-        comment.setCreatedAt(entity.getCreatedAt());
+        comment.setCreatedAt(createdAtInMillisecondsSinceEpoch);
         return comment;
     }
 

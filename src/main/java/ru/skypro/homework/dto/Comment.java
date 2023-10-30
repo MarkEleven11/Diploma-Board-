@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +13,7 @@ public class Comment {
     private int author;
     private String authorImage;
     private String authorFirstName;
-    private LocalDateTime createdAt;
+    private long createdAt;
     private int pk;
     private String text;
 }

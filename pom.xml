@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.14</version>
+    <version>3.1.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -19,7 +19,7 @@
   <description>Application for managing ads</description>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
   </properties>
   <dependencies>
@@ -117,5 +117,6 @@
       </plugin>
     </plugins>
   </build>
+
 
 </project>

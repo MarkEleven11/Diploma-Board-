@@ -76,7 +76,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserWrapper(findUserEntityByLogin(username));
+    public UserDetails loadUserByUsername(String username) {
+        UserEntity userEntity = repository.findUserEntityByUsername(username);
+        if (userEntity == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new UserWrapper(userEntity);
     }
 }

@@ -1,14 +1,14 @@
 package ru.skypro.homework.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
 @EqualsAndHashCode
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UpdateUser {
 
     private String firstName;

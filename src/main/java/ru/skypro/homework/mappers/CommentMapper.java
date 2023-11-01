@@ -27,8 +27,17 @@ public class CommentMapper {
         return comment;
     }
 
-    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad, UserEntity author) {
-        return new CommentEntity(author, LocalDateTime.now(), createOrUpdateComment.getText(), ad);
+//    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad, UserEntity author) {
+//        return new CommentEntity(author, LocalDateTime.now(), createOrUpdateComment.getText(), ad);
+//    }
+
+    public CommentEntity createCommentToEntity(CreateOrUpdateComment commentText, AdEntity adEntity) {
+        CommentEntity newCommentEntity = new CommentEntity();
+        newCommentEntity.setText(commentText.getText());
+        newCommentEntity.setCreatedAt(LocalDateTime.now());
+        newCommentEntity.setAuthor(adEntity.getAuthor());
+        newCommentEntity.setAd(adEntity);
+        return newCommentEntity;
     }
 
     public Comments entityToComments(List<CommentEntity> entities) {

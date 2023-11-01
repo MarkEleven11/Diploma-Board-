@@ -12,6 +12,7 @@ import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
+import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper mapper;
 
     private final DateTimeFormatter localFormatter = new DateTimeFormatterFactory(" dd MMMM yyyy в HH:mm:ss)").createDateTimeFormatter();
+    private final AdService adService;
 
     public final CommentEntity save(CommentEntity commentEntity) {
         return commentRepository.save(commentEntity);
@@ -37,10 +39,21 @@ public class CommentServiceImpl implements CommentService {
                 commentRepository.findAllByAdId(id));
     }
 
+//    @Override
+//    public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
+//        return mapper.entityToCommentDto(
+//                save(new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
+//    }
+
     @Override
-    public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
-        return mapper.entityToCommentDto(
-                save(new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
+    public Comment add(int adId, CreateOrUpdateComment text) {
+        AdEntity adEntity = adService.get(adId);
+
+        CommentEntity newCommentEntity = mapper.createCommentToEntity(text, adEntity);
+
+        commentRepository.save(newCommentEntity);
+
+        return mapper.entityToCommentDto(newCommentEntity);
     }
 
     @Override

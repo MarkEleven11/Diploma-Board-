@@ -11,7 +11,7 @@ public interface CommentService {
 
     Comments getComments(int id);
 
-    Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity);
+    Comment add(int adId, CreateOrUpdateComment text);
 
     void delete(int commentId);
 

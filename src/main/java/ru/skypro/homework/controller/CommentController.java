@@ -66,8 +66,8 @@ public class CommentController {
     public ResponseEntity<Comment> addComments(@PathVariable("id") Integer id,
                                                @NotNull @RequestBody CreateOrUpdateComment comment) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        commentService.add(adService.get(id), comment, userService.findUserEntityByLogin(userDetails.getUsername()));
-        return ResponseEntity.ok().build();
+        Comment newComment = commentService.add(id, comment);
+        return ResponseEntity.ok().body(newComment);
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")

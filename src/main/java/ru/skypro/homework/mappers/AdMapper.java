@@ -22,19 +22,20 @@ public class AdMapper {
                 entity.getTitle());
     }
 
-    public ExtendedAd entityToExtendedAdsDto(AdEntity entity) {
-        UserEntity user = entity.getAuthor();
-        return ExtendedAd.builder()
-                .email(user.getUsername())
-                .authorFirstName(user.getFirstName())
-                .authorLastName(user.getLastName())
-                .phone(user.getPhone())
-                .image(entity.getImage())
-                .description(entity.getDescription())
-                .price(entity.getPrice())
-                .title(entity.getTitle())
-                .pk(entity.getId())
-                .build();
+    public ExtendedAd entityToExtendedAdsDto(AdEntity ad) {
+        if ( ad == null ) {
+            return null;
+        }
+
+        ExtendedAd.ExtendedAdBuilder extendedAdDTO = ExtendedAd.builder();
+
+        extendedAdDTO.pk( ad.getId() );
+        extendedAdDTO.description( ad.getDescription() );
+        extendedAdDTO.image( ad.getImage() );
+        extendedAdDTO.price( ad.getPrice() );
+        extendedAdDTO.title( ad.getTitle() );
+
+        return extendedAdDTO.build();
     }
 
     public Ads createAdsToEntity(List<AdEntity> adEntities) {

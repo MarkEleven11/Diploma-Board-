@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Component
 public class AdMapper {
     public Ad entityToAdsDto(AdEntity entity) {
-        int adId = entity.getAuthor().getId();
-        int userId = entity.getId();
+        int adId = entity.getId();
+        int userId = entity.getAuthor().getId();
         return new Ad(adId,
                 userId,
                 entity.getImagePath(),

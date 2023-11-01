@@ -39,7 +39,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public final AdEntity get(int id) {
+    public AdEntity get(int id) {
         return adRepository.findById(id).orElseThrow(FindException::new);
     }
 

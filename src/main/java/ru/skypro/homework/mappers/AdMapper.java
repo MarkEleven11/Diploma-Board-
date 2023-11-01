@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Component
 public class AdMapper {
     public Ad entityToAdsDto(AdEntity entity) {
-        int adId = entity.getAuthor().getId();
-        int userId = entity.getId();
+        int userId = entity.getAuthor().getId();
+        int adId = entity.getId();
         return new Ad(adId,
                 userId,
                 entity.getImagePath(),
@@ -33,7 +33,7 @@ public class AdMapper {
                 .description(entity.getDescription())
                 .price(entity.getPrice())
                 .title(entity.getTitle())
-                .pk(Math.toIntExact(entity.getId()))
+                .pk(entity.getId())
                 .build();
     }
 

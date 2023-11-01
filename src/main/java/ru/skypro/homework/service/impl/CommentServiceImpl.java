@@ -40,8 +40,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
         return mapper.entityToCommentDto(
-                save(
-                        new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
+                save(new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
     }
 
     @Override

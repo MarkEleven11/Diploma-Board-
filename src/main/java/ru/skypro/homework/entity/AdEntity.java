@@ -31,6 +31,10 @@ public class AdEntity {
     private String title;
     private int price;
     private String description;
+    /*
+    @Lob
+    private byte[] image;
+     */
     @Column(name = "image")
     private String image;
 
@@ -42,8 +46,10 @@ public class AdEntity {
     }
 
     public String getImagePath() {
-        return image == null ? null : "/ads/image/" + id;
+        return image == null ? null : "${path.to.image}" + "${path.to.image.ads}" + id;
     }
+
+
 
     public final AdEntity setFieldsAndReturnEntity(UserEntity userEntity,
                                                    CreateOrUpdateAd dto,

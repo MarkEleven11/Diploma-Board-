@@ -12,6 +12,7 @@ import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
+import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 
 import java.time.LocalDateTime;
@@ -24,8 +25,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper mapper;
-
-    private final DateTimeFormatter localFormatter = new DateTimeFormatterFactory(" dd MMMM yyyy в HH:mm:ss)").createDateTimeFormatter();
+    private final AdService adService;
 
     public final CommentEntity save(CommentEntity commentEntity) {
         return commentRepository.save(commentEntity);
@@ -38,10 +38,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity) {
-        return mapper.entityToCommentDto(
-                save(
-                        new CommentEntity().setFieldsAndReturnEntity(userEntity, adEntity, comment)));
+    public Comment add(int id, CreateOrUpdateComment comment) {
+        AdEntity ad = adService.get(id);
+        CommentEntity newEntity = mapper.createCommentToEntity(comment, ad);
+        commentRepository.save(newEntity);
+        return mapper.entityToCommentDto(newEntity);
     }
 
     @Override
@@ -50,10 +51,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment update(int id, CreateOrUpdateComment comment) {
-        return mapper.entityToCommentDto(
-                commentRepository.save(
-                        getEntity(id).setFieldsAndReturnEntity(comment)));
+    public Comment update(int adId, int commentId, CreateOrUpdateComment comment) {
+        CommentEntity commentEntity = commentRepository.findCommentEntityByAdAndId(adService.get(adId), commentId);
+        commentEntity.setText(comment.getText());
+        save(commentEntity);
+        return mapper.entityToCommentDto(commentEntity);
     }
 
     @Override

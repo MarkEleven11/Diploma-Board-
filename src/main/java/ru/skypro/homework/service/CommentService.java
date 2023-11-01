@@ -11,11 +11,11 @@ public interface CommentService {
 
     Comments getComments(int id);
 
-    Comment add(AdEntity adEntity, CreateOrUpdateComment comment, UserEntity userEntity);
+    Comment add(int id, CreateOrUpdateComment comment);
 
     void delete(int commentId);
 
-    Comment update(int commentId, CreateOrUpdateComment comment);
+    Comment update(int adId, int commentId, CreateOrUpdateComment comment);
 
     CommentEntity getEntity(int commentId);
 

@@ -65,9 +65,8 @@ public class CommentController {
     )
     public ResponseEntity<Comment> addComments(@PathVariable("id") Integer id,
                                                @NotNull @RequestBody CreateOrUpdateComment comment) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        commentService.add(adService.get(id), comment, userService.findUserEntityByLogin(userDetails.getUsername()));
-        return ResponseEntity.ok().build();
+        Comment commentNew = commentService.add(id, comment);
+        return ResponseEntity.ok().body(commentNew);
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
@@ -102,11 +101,11 @@ public class CommentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             }
     )
-    public ResponseEntity<Comment> updateComments(@PathVariable Long adId,
+    public ResponseEntity<Comment> updateComments(@PathVariable Integer adId,
                                                   @PathVariable Integer commentId,
                                                   @RequestBody CreateOrUpdateComment createOrUpdateComment) {
         return ResponseEntity.ok(
-                commentService.update(commentId, createOrUpdateComment)
+                commentService.update(adId, commentId, createOrUpdateComment)
         );
     }
 }

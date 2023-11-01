@@ -27,8 +27,13 @@ public class CommentMapper {
         return comment;
     }
 
-    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad, UserEntity author) {
-        return new CommentEntity(author, LocalDateTime.now(), createOrUpdateComment.getText(), ad);
+    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad) {
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setText(createOrUpdateComment.getText());
+        commentEntity.setCreatedAt(LocalDateTime.now());
+        commentEntity.setAuthor(ad.getAuthor());
+        commentEntity.setAd(ad);
+        return commentEntity;
     }
 
     public Comments entityToComments(List<CommentEntity> entities) {

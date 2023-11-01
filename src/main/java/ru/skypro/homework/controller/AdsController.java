@@ -104,8 +104,7 @@ public class AdsController {
     )
     public ResponseEntity<ExtendedAd> getAds(@PathVariable Integer id) {
         ExtendedAd ad = adService.getExtendedAdsById(id);
-        return ResponseEntity.ok(
-                ad);
+        return ResponseEntity.ok(ad);
     }
 
     @Operation(

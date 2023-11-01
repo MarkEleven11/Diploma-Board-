@@ -24,7 +24,9 @@ public class AdMapper {
 
     public ExtendedAd entityToExtendedAdsDto(AdEntity entity) {
         UserEntity user = entity.getAuthor();
+        int adId = entity.getId();
         return ExtendedAd.builder()
+                .pk(adId)
                 .email(user.getUsername())
                 .authorFirstName(user.getFirstName())
                 .authorLastName(user.getLastName())
@@ -33,7 +35,6 @@ public class AdMapper {
                 .description(entity.getDescription())
                 .price(entity.getPrice())
                 .title(entity.getTitle())
-                .pk(Math.toIntExact(entity.getId()))
                 .build();
     }
 

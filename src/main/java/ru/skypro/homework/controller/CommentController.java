@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.Comments;
@@ -137,8 +139,10 @@ public class CommentController {
                     )
             }
     )
+    @PreAuthorize("@commentServiceImpl.getEntity(#commentId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deleteComments(@PathVariable Integer adId,
-                                                     @PathVariable Integer commentId) {
+                                                     @PathVariable Integer commentId,
+                                                     Authentication auth) {
         commentService.delete(commentId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -182,9 +186,11 @@ public class CommentController {
                     )
             }
     )
+    @PreAuthorize("@commentServiceImpl.getEntity(#commentId).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Comment> updateComments(@PathVariable Integer adId,
                                                   @PathVariable Integer commentId,
-                                                  @RequestBody CreateOrUpdateComment createOrUpdateComment) {
+                                                  @RequestBody CreateOrUpdateComment createOrUpdateComment,
+                                                  Authentication auth) {
         return ResponseEntity.ok(
                 commentService.update(adId, commentId, createOrUpdateComment)
         );

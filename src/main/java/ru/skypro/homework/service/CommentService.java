@@ -3,6 +3,7 @@ package ru.skypro.homework.service;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.dto.Comments;
+import ru.skypro.homework.entity.CommentEntity;
 
 /**
  * Сервис для работы с комментариями
@@ -42,4 +43,12 @@ public interface CommentService {
      * @return Обновленный комментарий
      */
     Comment update(int adId, int commentId, CreateOrUpdateComment comment);
+
+    /**
+     * Метод для получения сущности комментария
+     *
+     * @param commentId Идентификатор комментария
+     * @return Сущность комментария
+     */
+    CommentEntity getEntity(int commentId);
 }

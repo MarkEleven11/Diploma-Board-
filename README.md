@@ -8,15 +8,17 @@ development server application that implements the functionality of a platform f
 :wrench:
 
 # Tech Stack:
-- Java 11, 
+- Java 17, 
 - Maven,
 - Docker,
-- Spring 2.7.10 (web, data-jpa, security),
+- Spring 2.7.14 (web, data-jpa, security,validation, test),
 - PostgreSQL, 
-- H2 Database, 
 - Liquibase, 
 - Swagger, 
 - Lombok
+- Springdoc
+- Commons-lang3
+
   
   :honeybee:
   

@@ -16,6 +16,8 @@ import ru.skypro.homework.repository.UserRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile)  {
+    public UserEntity updateImage(UserDetails userDetails, MultipartFile multipartFile) throws IOException {
         UserEntity userEntity = findUserEntityByLogin(userDetails.getUsername());
         userEntity.setImage(imageService.saveUserImage(multipartFile));
         return save(userEntity);

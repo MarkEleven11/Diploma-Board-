@@ -46,7 +46,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public Ad create(UserEntity userEntity,
                      CreateOrUpdateAd createOrUpdateAd,
-                     MultipartFile multipartFile) {
+                     MultipartFile multipartFile) throws IOException {
         return mapper.entityToAdsDto(
                 save(new AdEntity()
                         .setFieldsAndReturnEntity(userEntity, createOrUpdateAd,
@@ -65,7 +65,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public Ad uploadImage(int id, MultipartFile image) {
+    public Ad uploadImage(int id, MultipartFile image) throws IOException {
         AdEntity adEntity = get(id);
         adEntity.setImage(imageService.saveAdsImage(image));
         adRepository.save(adEntity);

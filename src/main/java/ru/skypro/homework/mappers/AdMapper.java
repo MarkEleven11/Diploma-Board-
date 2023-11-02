@@ -31,7 +31,7 @@ public class AdMapper {
                 .authorFirstName(user.getFirstName())
                 .authorLastName(user.getLastName())
                 .phone(user.getPhone())
-                .image(entity.getImage())
+                .image(entity.getImagePath())
                 .description(entity.getDescription())
                 .price(entity.getPrice())
                 .title(entity.getTitle())

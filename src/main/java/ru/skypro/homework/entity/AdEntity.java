@@ -42,7 +42,7 @@ public class AdEntity {
     }
 
     public String getImagePath() {
-        return image == null ? null : "/ads/image/" + id;
+        return image == null ? null : "/images/ads/" + id;
     }
 
     public final AdEntity setFieldsAndReturnEntity(UserEntity userEntity,

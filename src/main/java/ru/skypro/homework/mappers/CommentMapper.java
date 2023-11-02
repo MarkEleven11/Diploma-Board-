@@ -6,7 +6,6 @@ import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
-import ru.skypro.homework.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -16,11 +15,11 @@ import java.util.stream.Collectors;
 @Component
 public class CommentMapper {
     public Comment entityToCommentDto(CommentEntity entity) {
-        long createdAtInMillisecondsSinceEpoch = entity.getCreatedAt().toInstant(ZoneOffset.UTC).toEpochMilli();
+        long createdAtInMillisecondsSinceEpoch = entity.getCreatedAt().toInstant(ZoneOffset.of("+03:00")).toEpochMilli();
         Comment comment = new Comment();
         comment.setPk(entity.getId());
         comment.setAuthor(entity.getAuthor().getId());
-        comment.setAuthorImage(entity.getAuthor().getImage());
+        comment.setAuthorImage(entity.getAuthor().getImagePath());
         comment.setText(entity.getText());
         comment.setAuthorFirstName(entity.getAuthor().getFirstName());
         comment.setCreatedAt(createdAtInMillisecondsSinceEpoch);

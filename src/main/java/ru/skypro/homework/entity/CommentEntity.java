@@ -1,12 +1,15 @@
 package ru.skypro.homework.entity;
 
 import lombok.*;
-import ru.skypro.homework.dto.CreateOrUpdateComment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+/**
+ * Класс, представляющий сущность комментария в приложении
+ * Класс соответствует таблице "comments" в базе данных и используется
+ * для хранения информации о комментариях пользователей
+ */
 @Entity
 @Table(name = "comments")
 @Data
@@ -31,27 +34,12 @@ public class CommentEntity {
     @JoinColumn(name = "ad_id")
     private AdEntity ad;
 
-    public CommentEntity(UserEntity author, LocalDateTime createdAt, String text, AdEntity ad) {
-        this.author = author;
-        this.createdAt = createdAt;
-        this.text = text;
-        this.ad = ad;
-    }
-
-    public final CommentEntity setFieldsAndReturnEntity(
-            UserEntity user, AdEntity adEntity, CreateOrUpdateComment createOrUpdateComment) {
-        this.setText(createOrUpdateComment.getText());
-        this.setAuthor(user);
-        this.setAd(adEntity);
-        this.setCreatedAt(LocalDateTime.now());
-        return this;
-    }
-
-    public final CommentEntity setFieldsAndReturnEntity(CreateOrUpdateComment createOrUpdateComment) {
-        this.setText(createOrUpdateComment.getText());
-        return this;
-    }
-
+    /**
+     * Переопределенный метод для сравнения объектов класса CommentEntity.
+     *
+     * @param o Объект, с которым выполняется сравнение.
+     * @return true, если объекты равны, и false в противном случае.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,6 +48,11 @@ public class CommentEntity {
         return Objects.equals(id, that.id) && Objects.equals(createdAt, that.createdAt) && Objects.equals(text, that.text);
     }
 
+    /**
+     * Переопределенный метод для вычисления хэш-кода объекта.
+     *
+     * @return Хэш-код объекта.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, text);

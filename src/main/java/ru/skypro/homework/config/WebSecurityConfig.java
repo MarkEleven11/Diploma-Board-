@@ -1,6 +1,5 @@
 package ru.skypro.homework.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +8,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Конфигурационный класс для настройки безопасности приложения
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -24,6 +26,12 @@ public class WebSecurityConfig {
             "/register"
     };
 
+    /**
+     * Метод создающий фильтр-цепочки для безопосной обработки запросов
+     * @param http Объект HttpSecurity для настройки безопасности
+     * @return фильтр-цепочки с безопасным доступом к приложению
+     * @throws Exception при возникновении ошибки во время настройки безопасности
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

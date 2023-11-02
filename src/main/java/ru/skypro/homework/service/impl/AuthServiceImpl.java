@@ -8,8 +8,9 @@ import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.UserService;
 
-import java.time.LocalDateTime;
-
+/**
+ * Реализация интерфейса AuthService для аутентификации и регистрации пользователей
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {

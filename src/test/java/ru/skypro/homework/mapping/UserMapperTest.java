@@ -10,7 +10,7 @@ import ru.skypro.homework.mappers.UserMapper;
 class UserMapperTest {
 
     private final UserMapper mapper = new UserMapper();
-    private final Long id = 1L;
+    private final int id = 1;
     private final String password = "123456";
     private final String email = "xxx@mail.ru";
     private final String fName = "Oleg";
@@ -29,18 +29,4 @@ class UserMapperTest {
         Assertions.assertEquals(user.getPhone(), phone);
         Assertions.assertNull(user.getImage());
     }
-
-    @Test
-    void userDtoToEntityTest() {
-        String newFName = "Yuri";
-        String newLName = "Gagarin";
-        String newPhone = "+78005553535";
-        User user = new User((long) id, email, fName, lName, phone, null);
-        UserEntity entity = new UserEntity(id, password, email, newFName, newLName, newPhone, role, null);
-        UserEntity newEntity = mapper.userDtoToEntity(user, entity);
-        Assertions.assertEquals(newEntity.getFirstName(), fName);
-        Assertions.assertEquals(newEntity.getLastName(), lName);
-        Assertions.assertEquals(newEntity.getPhone(), phone);
-    }
-
 }

@@ -12,6 +12,9 @@ import ru.skypro.homework.dto.Login;
 import ru.skypro.homework.dto.Register;
 import ru.skypro.homework.service.AuthService;
 
+/**
+ * Класс контроллер для обработки информации о пользователе
+ */
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -20,6 +23,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Метод для аутентификации пользователя
+     *
+     * @param login Объект, содержащий информацию о пользователе
+     * @return Ответ с кодом состояния HTTP 200 (OK)
+     * В случае отсутствия информации о пользователе в базе данных ответ с кодом состояния HTTP 401 (Unauthorized)
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login login) {
         if (authService.login(login.getUsername(), login.getPassword())) {
@@ -29,6 +39,13 @@ public class AuthController {
         }
     }
 
+    /**
+     * Метод для регистрации пользователя
+     *
+     * @param register Объект, содержащий информацию о пользователе
+     * @return Ответ с кодом состояния HTTP 201 (Created)
+     * В случае ошибки в ходе регистрации ответ с кодом состояния HTTP 400 (Bad request)
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Register register) {
         if (authService.register(register)) {

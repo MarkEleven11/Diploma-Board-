@@ -6,8 +6,16 @@ import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
+/**
+ * Конфигурационный класс для настройки мультипарт файлов
+ */
 public class MultipartConfig {
 
+    /**
+     * Метод, создающий и настраивающий бин для параметров мультипарт-загрузки файлов
+     *
+     * @return Объект MultipartConfigElement с настроенными параметрами максимального размера файла и запроса
+     */
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();

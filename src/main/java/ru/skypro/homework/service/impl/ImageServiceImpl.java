@@ -18,6 +18,9 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Реализация интерфейса ImageService для управления изображениями
+ */
 @RequiredArgsConstructor
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -56,7 +59,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String saveAdsImage(MultipartFile file) throws IOException {
-        File newFile =Paths.get(adsImagesPath, getNewFileName(file)).toFile();
+        File newFile = Paths.get(adsImagesPath, getNewFileName(file)).toFile();
         uploadFile(file, newFile);
         return newFile.getPath();
     }

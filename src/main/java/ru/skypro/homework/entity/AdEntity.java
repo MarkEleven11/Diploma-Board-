@@ -7,7 +7,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Класс, представляющий сущность объявления в приложении
+ * Класс соответствует таблице "ads" в базе данных и используется
+ * для хранения информации о объявлениях пользователей
+ */
 @Entity
 @Table(name = "ads")
 @Data
@@ -34,6 +38,14 @@ public class AdEntity {
     @Column(name = "image")
     private String image;
 
+    /**
+     * Контроллер для создания сущности объявления
+     *
+     * @param author Данные об авторе объявления
+     * @param title Заголовок объявления
+     * @param price Цена объявления
+     * @param description Описание объявления
+     */
     public AdEntity(UserEntity author, String title, int price, String description) {
         this.author = author;
         this.title = title;
@@ -41,10 +53,22 @@ public class AdEntity {
         this.description = description;
     }
 
+    /**
+     * Метод для получения ссылке к изображению объявления
+     * @return Строка-ссылка на изображение
+     */
     public String getImagePath() {
         return image == null ? null : "/images/ads/" + id;
     }
 
+    /**
+     * Метод для установки полей объекта AdEntity из DTO и пути к изображению.
+     *
+     * @param userEntity Сущность пользователя, создавшего объявление.
+     * @param dto DTO с информацией об объявлении.
+     * @param image Путь к изображению.
+     * @return Обновленная сущность объявления.
+     */
     public final AdEntity setFieldsAndReturnEntity(UserEntity userEntity,
                                                    CreateOrUpdateAd dto,
                                                    String image) {
@@ -56,6 +80,12 @@ public class AdEntity {
         return this;
     }
 
+    /**
+     * Метод для установки полей объекта AdEntity из DTO.
+     *
+     * @param createOrUpdateAd DTO с информацией об объявлении.
+     * @return Обновленная сущность объявления.
+     */
     public final AdEntity setFieldsAndReturnEntity(CreateOrUpdateAd createOrUpdateAd) {
         this.setDescription(createOrUpdateAd.getDescription());
         this.setTitle(createOrUpdateAd.getTitle());
@@ -63,6 +93,12 @@ public class AdEntity {
         return this;
     }
 
+    /**
+     * Переопределенный метод для сравнения объектов класса AdEntity.
+     *
+     * @param o Объект, с которым выполняется сравнение.
+     * @return true, если объекты равны, и false в противном случае.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +112,11 @@ public class AdEntity {
                 Objects.equals(description, adEntity.description);
     }
 
+    /**
+     * Переопределенный метод для вычисления хэш-кода объекта.
+     *
+     * @return Хэш-код объекта.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, image, price, title, description);

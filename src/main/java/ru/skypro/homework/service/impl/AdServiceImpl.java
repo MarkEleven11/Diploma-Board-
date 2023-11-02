@@ -17,6 +17,9 @@ import java.lang.module.FindException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация интерфейса AdService для управления объявлениями
+ */
 @RequiredArgsConstructor
 @Service
 public class AdServiceImpl implements AdService {

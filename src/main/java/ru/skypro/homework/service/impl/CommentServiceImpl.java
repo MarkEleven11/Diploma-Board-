@@ -1,25 +1,20 @@
 package ru.skypro.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.datetime.standard.DateTimeFormatterFactory;
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
-import ru.skypro.homework.entity.UserEntity;
-import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdService;
 import ru.skypro.homework.service.CommentService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
-import java.util.List;
-
+/**
+ * Реализация интерфейса CommentService для управления комментариями
+ */
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -56,17 +51,5 @@ public class CommentServiceImpl implements CommentService {
         commentEntity.setText(comment.getText());
         save(commentEntity);
         return mapper.entityToCommentDto(commentEntity);
-    }
-
-    @Override
-    public CommentEntity getEntity(int commentId) {
-        return commentRepository.findById(commentId)
-                .orElseThrow(() -> new FindNoEntityException("комментарий"));
-    }
-
-    @Override
-    public Comments findCommentsByAdId(int id) {
-        return mapper.entityToComments(
-                commentRepository.findAllByAdId(id));
     }
 }

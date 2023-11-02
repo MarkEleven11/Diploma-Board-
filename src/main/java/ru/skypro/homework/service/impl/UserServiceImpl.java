@@ -18,6 +18,9 @@ import ru.skypro.homework.service.UserService;
 
 import java.io.IOException;
 
+/**
+ * Реализация интерфейса UserService для управления пользователями
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {

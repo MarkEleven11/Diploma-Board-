@@ -166,6 +166,7 @@ public class AdsController {
             }
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("@adServiceImpl.get(#id).author.username.equals(#auth.name) or hasRole('ADMIN')")
     public ResponseEntity<Ad> updateAds(@PathVariable Integer id,
                                         @RequestBody CreateOrUpdateAd ads) {
         return ResponseEntity.ok(adService.update(id, ads));

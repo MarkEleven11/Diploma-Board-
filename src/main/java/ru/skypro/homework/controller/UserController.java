@@ -46,7 +46,6 @@ public class UserController {
     @PostMapping("/set_password")
     @Operation(
             summary = "Обновление пароля пользователя",
-            tags = {"Пользователи"},
             responses = {
                     @ApiResponse(
                             responseCode = "201",
@@ -84,7 +83,6 @@ public class UserController {
     @GetMapping("/me")
     @Operation(
             summary = "Получение информации о пользователе",
-            tags = {"Пользователи"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -118,9 +116,7 @@ public class UserController {
      */
     @PatchMapping("/me")
     @Operation(
-            operationId = "updateUser",
-            summary = "updateUser",
-            tags = {"Пользователи"},
+            summary = "Обновление информации о пользователе",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK", content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -151,9 +147,7 @@ public class UserController {
      */
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
-            operationId = "updateUserImage",
-            summary = "updateUserImage",
-            tags = {"Пользователи"},
+            summary = "Обновление изображения пользователя",
             responses = {
                     @ApiResponse(
                             responseCode = "201",

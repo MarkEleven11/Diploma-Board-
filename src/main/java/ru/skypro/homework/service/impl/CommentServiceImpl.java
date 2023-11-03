@@ -57,6 +57,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentEntity getEntity(int commentId) {
         return commentRepository.findById(commentId)
-                .orElseThrow(() -> new FindNoEntityException("комментарий"));
+                .orElseThrow(() -> new FindNoEntityException("Обращение к несуществующему комментарию"));
     }
 }

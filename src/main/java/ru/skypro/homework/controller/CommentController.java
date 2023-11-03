@@ -44,11 +44,11 @@ public class CommentController {
      */
     @GetMapping("/{id}/comments")
     @Operation(
-            operationId = "getComments",
-            summary = "getComments",
-            tags = {"Комментарии"},
+            summary = "Получение всех комментариев",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @ApiResponse(responseCode = "200",
+                            description = "OK",
+                            content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Ads.class))
                     }),
@@ -68,6 +68,7 @@ public class CommentController {
 
     /**
      * Метод для добавления комментария
+     *
      * @param id Идентификатор объявления
      * @param comment Объект с данными о комментарии
      * @return Ответ с созданным комментарием в формате JSON и кодом состояния HTTP 201 (Created).
@@ -76,11 +77,11 @@ public class CommentController {
      */
     @PostMapping("/{id}/comments")
     @Operation(
-            operationId = "addComments",
-            summary = "addComments",
-            tags = {"Комментарии"},
+            summary = "Добавление комментария",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "OK", content = {
+                    @ApiResponse(responseCode = "201",
+                            description = "Created",
+                            content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Comment.class))
                     }),
@@ -113,9 +114,7 @@ public class CommentController {
      */
     @DeleteMapping("/{adId}/comments/{commentId}")
     @Operation(
-            operationId = "deleteComments",
-            summary = "deleteComments",
-            tags = {"Комментарии"},
+            summary = "Удаление комментария",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -160,9 +159,7 @@ public class CommentController {
      */
     @PatchMapping("/{adId}/comments/{commentId}")
     @Operation(
-            operationId = "updateComments",
-            summary = "updateComments",
-            tags = {"Комментарии"},
+            summary = "Обновление комментария",
             responses = {
                     @ApiResponse(
                             responseCode = "201",

@@ -49,7 +49,6 @@ public class AdsController {
     @GetMapping
     @Operation(
             summary = "Получение всех объявлений",
-            tags = {"Объявления"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -76,10 +75,12 @@ public class AdsController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "Добавление объявления",
-            tags = {"Объявления"},
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Created", content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    @ApiResponse(responseCode = "201",
+                            description = "Created",
+                            content = {
+                            @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Ad.class))
                     }),
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
@@ -104,7 +105,6 @@ public class AdsController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Получение информации об объявлении",
-            tags = {"Объявления"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -141,7 +141,7 @@ public class AdsController {
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "OK",
+                            description = "Created",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = HttpStatus.class))
@@ -256,11 +256,11 @@ public class AdsController {
      * Если объявление не найдено, вернется код состояния HTTP 404 (Not Found)
      */
     @Operation(
-            summary = "Обновление фотографии пользователя",
+            summary = "Обновление фотографии объявления",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Фото обновлено",
+                            description = "Created",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = Ad.class))

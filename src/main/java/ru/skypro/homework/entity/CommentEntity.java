@@ -1,23 +1,29 @@
 package ru.skypro.homework.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+import java.util.Objects;
+/**
+ * Класс, представляющий сущность комментария в приложении
+ * Класс соответствует таблице "comments" в базе данных и используется
+ * для хранения информации о комментариях пользователей
+ */
 @Entity
 @Table(name = "comments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class CommentEntity {
     @Id
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pk;
-    @ManyToOne
+    private int id;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity author;
     @Column(name = "created_at")
@@ -28,10 +34,27 @@ public class CommentEntity {
     @JoinColumn(name = "ad_id")
     private AdEntity ad;
 
-    public CommentEntity(UserEntity author, LocalDateTime createdAt, String text, AdEntity ad) {
-        this.author = author;
-        this.createdAt = createdAt;
-        this.text = text;
-        this.ad = ad;
+    /**
+     * Переопределенный метод для сравнения объектов класса CommentEntity.
+     *
+     * @param o Объект, с которым выполняется сравнение.
+     * @return true, если объекты равны, и false в противном случае.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentEntity that = (CommentEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(createdAt, that.createdAt) && Objects.equals(text, that.text);
+    }
+
+    /**
+     * Переопределенный метод для вычисления хэш-кода объекта.
+     *
+     * @return Хэш-код объекта.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createdAt, text);
     }
 }

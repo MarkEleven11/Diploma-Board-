@@ -2,10 +2,9 @@ package ru.skypro.homework.mapping;
 
 import org.junit.jupiter.api.Test;
 import ru.skypro.homework.dto.Comment;
-import ru.skypro.homework.dto.CreateComment;
+import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
-import ru.skypro.homework.entity.ImageEntity;
 import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.mappers.CommentMapper;
 
@@ -22,7 +21,6 @@ class CommentMapperTest {
     void testEntityToCommentDto() {
         UserEntity author = new UserEntity();
         author.setId(1);
-        author.setImage(new ImageEntity());
         author.setFirstName("John Doe");
         author.setLastName("Doe");
 
@@ -31,7 +29,7 @@ class CommentMapperTest {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setAuthor(author);
         commentEntity.setCreatedAt(createdAt);
-        commentEntity.setPk(1);
+        commentEntity.setId(1);
         commentEntity.setText("This is a comment");
 
         Comment expectedComment = new Comment(1, "/users/image/1", "John Doe",
@@ -44,17 +42,15 @@ class CommentMapperTest {
 
     @Test
     void testCreateCommentToEntity() {
-        CreateComment createComment = new CreateComment();
-        createComment.setText("New comment");
+        CreateOrUpdateComment createOrUpdateComment = new CreateOrUpdateComment();
+        createOrUpdateComment.setText("New comment");
 
         AdEntity ad = new AdEntity();
-        UserEntity author = new UserEntity();
 
-        CommentEntity result = commentMapper.createCommentToEntity(createComment, ad, author);
+        CommentEntity result = commentMapper.createCommentToEntity(createOrUpdateComment, ad);
 
-        assertEquals(createComment.getText(), result.getText());
+        assertEquals(createOrUpdateComment.getText(), result.getText());
         assertEquals(ad, result.getAd());
-        assertEquals(author, result.getAuthor());
     }
 
 }

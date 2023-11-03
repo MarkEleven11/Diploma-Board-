@@ -7,20 +7,20 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Класс - список объявлений
+ * Класс - список комментариев
  */
-@Data
 @AllArgsConstructor
+@Data
 @Builder
-public class Ads {
+public class Comments {
 
     /**
-     * Количество объявлений в списке
+     * Количество комментариев в списке
      */
     private Integer count;
 
     /**
-     * Список объявлений
+     * Список комментариев
      */
-    private List<Ad> results;
+    private List<Comment> results;
 }

@@ -1,26 +1,32 @@
 package ru.skypro.homework.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.skypro.homework.dto.RegisterReq;
 import ru.skypro.homework.dto.User;
 import ru.skypro.homework.entity.UserEntity;
 
+/**
+ * Класс представляет собой маппер для преобразования данных между сущностями пользователей
+ * ({@code UserEntity}) и объектами передачи данных о пользователях ({@code User}) в приложении.
+ * Класс выполняет конвертацию данных о пользователе из формата сущности в формат DTO и обратно.
+ *
+ * @see User
+ * @see UserEntity
+ */
 @Component
 public class UserMapper {
+
+    /**
+     * Преобразует сущность пользователя ({@code UserEntity}) в объект передачи данных о пользователе ({@code User})
+     *
+     * @param entity Сущность пользователя
+     * @return Объект DTO о пользователе ({@code User})
+     */
     public User entityToUserDto(UserEntity entity) {
-        return new User(entity.getId(), entity.getEmail(), entity.getFirstName(),
-                entity.getLastName(), entity.getPhone(), entity.getImagePath());
-    }
-
-    public UserEntity userDtoToEntity(User user, UserEntity entity) {
-        entity.setPhone(user.getPhone());
-        entity.setFirstName(user.getFirstName());
-        entity.setLastName(user.getLastName());
-        return entity;
-    }
-
-    public UserEntity registerReqDtoToEntity(RegisterReq req) {
-        return new UserEntity(req.getPassword(), req.getUsername(), req.getFirstName(),
-                req.getLastName(), req.getPhone(), req.getRole());
+        return new User(entity.getId(),
+                entity.getUsername(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getPhone(),
+                entity.getImagePath());
     }
 }

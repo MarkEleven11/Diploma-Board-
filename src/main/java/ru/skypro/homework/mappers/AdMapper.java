@@ -46,6 +46,7 @@ public class AdMapper {
 
     /**
      * Метод выполняет преобразование сущности {@code AdEntity} в DTO объявления {@code ExtendedAd}
+     *
      * @param entity Сущность объявления
      * @return Объект DTO объявления
      */

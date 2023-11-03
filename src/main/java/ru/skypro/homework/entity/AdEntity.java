@@ -55,6 +55,7 @@ public class AdEntity {
 
     /**
      * Метод для получения ссылке к изображению объявления
+     *
      * @return Строка-ссылка на изображение
      */
     public String getImagePath() {

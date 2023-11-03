@@ -16,7 +16,7 @@ import ru.skypro.homework.entity.UserEntity;
 public class UserMapper {
 
     /**
-     * Преобразует сущность пользователя ({@code UserEntity}) в объект передачи данных о пользователе ({@code User})
+     * Метод преобразует сущность пользователя ({@code UserEntity}) в объект передачи данных о пользователе ({@code User})
      *
      * @param entity Сущность пользователя
      * @return Объект DTO о пользователе ({@code User})

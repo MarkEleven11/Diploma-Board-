@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class CommentMapper {
 
     /**
-     *  Метод выполняет преобразование сущности комментария {@code CommentEntity} в DTO комментария {@code Comment}
+     * Метод выполняет преобразование сущности комментария {@code CommentEntity} в DTO комментария {@code Comment}
      *
      * @param entity Сущность комментария
      * @return Объект DTO комментария
@@ -48,8 +48,8 @@ public class CommentMapper {
     }
 
     /**
-     *  Метод выполняет преобразование DTO созданного или обновленного комментария {@code CreateOrUpdateComment}
-     *  в сущность {@code CommentEntity}
+     * Метод выполняет преобразование DTO созданного или обновленного комментария {@code CreateOrUpdateComment}
+     * в сущность {@code CommentEntity}
      *
      * @param createOrUpdateComment Сущность комментария
      * @param ad Сущность

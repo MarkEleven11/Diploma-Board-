@@ -76,6 +76,7 @@ public class UserEntity {
 
     /**
      * Метод для получения ссылке к изображению пользователя
+     *
      * @return Строка-ссылка на изображение
      */
     public String getImagePath() {

@@ -47,7 +47,7 @@ class CommentMapperTest {
 
         AdEntity ad = new AdEntity();
 
-        CommentEntity result = commentMapper.createCommentToEntity(createOrUpdateComment, ad);
+        CommentEntity result = commentMapper.createCommentToEntity(createOrUpdateComment, ad, UserEntity.builder().build());
 
         assertEquals(createOrUpdateComment.getText(), result.getText());
         assertEquals(ad, result.getAd());

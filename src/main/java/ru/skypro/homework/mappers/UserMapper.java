@@ -27,6 +27,7 @@ public class UserMapper {
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getPhone(),
-                entity.getImagePath());
+                entity.getImagePath(),
+                entity.getRole());
     }
 }

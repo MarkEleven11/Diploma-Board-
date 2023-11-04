@@ -43,4 +43,9 @@ public class User {
      * Ссылка на изображение-аватар пользователя
      */
     private String image;
+
+    /**
+     * Ссылка на enum Role - роль пользователя (юзер или админ)
+     */
+    private Role role;
 }

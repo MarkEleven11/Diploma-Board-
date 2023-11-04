@@ -7,6 +7,7 @@ import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
+import ru.skypro.homework.entity.UserEntity;
 import ru.skypro.homework.exceptions.FindNoEntityException;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
@@ -34,9 +35,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment add(int id, CreateOrUpdateComment comment) {
+    public Comment add(int id, CreateOrUpdateComment comment, UserEntity user) {
         AdEntity ad = adService.get(id);
-        CommentEntity newEntity = mapper.createCommentToEntity(comment, ad);
+        CommentEntity newEntity = mapper.createCommentToEntity(comment, ad, user);
         commentRepository.save(newEntity);
         return mapper.entityToCommentDto(newEntity);
     }

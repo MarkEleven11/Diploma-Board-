@@ -14,12 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.dto.Ads;
 import ru.skypro.homework.service.CommentService;
+import ru.skypro.homework.service.UserService;
 
 /**
  * Класс контроллер для работы с комментариями
@@ -33,6 +36,7 @@ import ru.skypro.homework.service.CommentService;
 public class CommentController {
 
     private final CommentService commentService;
+    private final UserService userService;
 
     /**
      * Метод для получения комментариев к объявлению по его идентификатору
@@ -98,7 +102,8 @@ public class CommentController {
     )
     public ResponseEntity<Comment> addComments(@PathVariable("id") Integer id,
                                                @NotNull @RequestBody CreateOrUpdateComment comment) {
-        Comment commentNew = commentService.add(id, comment);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Comment commentNew = commentService.add(id, comment, userService.findUserEntityByLogin(userDetails.getUsername()));
         return ResponseEntity.ok().body(commentNew);
     }
 

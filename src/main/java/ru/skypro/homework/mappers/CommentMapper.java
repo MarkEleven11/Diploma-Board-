@@ -7,6 +7,7 @@ import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.entity.AdEntity;
 import ru.skypro.homework.entity.CommentEntity;
+import ru.skypro.homework.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -55,11 +56,11 @@ public class CommentMapper {
      * @param ad Сущность
      * @return Объект сущность комментария
      */
-    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad) {
+    public CommentEntity createCommentToEntity(CreateOrUpdateComment createOrUpdateComment, AdEntity ad, UserEntity user) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setText(createOrUpdateComment.getText());
         commentEntity.setCreatedAt(LocalDateTime.now());
-        commentEntity.setAuthor(ad.getAuthor());
+        commentEntity.setAuthor(user);
         commentEntity.setAd(ad);
         return commentEntity;
     }

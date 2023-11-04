@@ -4,6 +4,7 @@ import ru.skypro.homework.dto.Comment;
 import ru.skypro.homework.dto.CreateOrUpdateComment;
 import ru.skypro.homework.dto.Comments;
 import ru.skypro.homework.entity.CommentEntity;
+import ru.skypro.homework.entity.UserEntity;
 
 /**
  * Сервис для работы с комментариями
@@ -25,7 +26,7 @@ public interface CommentService {
      * @param comment Модель данных комментария для создания
      * @return Созданный комментарий
      */
-    Comment add(int id, CreateOrUpdateComment comment);
+    Comment add(int id, CreateOrUpdateComment comment, UserEntity user);
 
     /**
      * Метод для удаления комментария по указанному идентификатору

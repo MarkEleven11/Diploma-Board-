@@ -35,6 +35,7 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public final void delete(int id) throws IOException {
+
         AdEntity adEntity = get(id);
         adRepository.deleteById(id);
         imageService.deleteImage(adEntity.getImage());

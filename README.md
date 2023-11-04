@@ -3,6 +3,13 @@
 # Diploma project for students of the Java developer course at Skypro: 
 development server application that implements the functionality of a platform for resale of things
 
+The backend part of the project involves the implementation of the following functionality:
+
++ Authorization and authentication of users.
++ Allocation of roles between users: user and administrator
++ Administrator can delete or edit all ads, and users can edit their own ads.
++ Under each ad users can leave feedback, comments.
++ Pictures of ads can be viewed and saved
 :scroll:
 
 :wrench:
